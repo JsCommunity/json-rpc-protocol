@@ -2,8 +2,6 @@ import {JsonRpcError} from './errors'
 
 // ===================================================================
 
-let nextId = 0
-
 const {stringify: toJson} = JSON
 
 // ===================================================================
@@ -39,7 +37,7 @@ export function notification (method, params = undefined) {
 
 // -------------------------------------------------------------------
 
-export function request (method, params = undefined, id = nextId++) {
+export function request (id, method, params = undefined) {
   return toJson({
     jsonrpc: '2.0',
     method: method,

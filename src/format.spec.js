@@ -36,7 +36,7 @@ describe('format', function () {
 
   it('.request()', function () {
     expect(fromJson(
-      format.request('foo', undefined, 0)
+      format.request(0, 'foo')
     )).to.eql({
       jsonrpc: '2.0',
       id: 0,
