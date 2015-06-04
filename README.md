@@ -141,18 +141,16 @@ import {format} from 'json-rpc-protocol'
 ```
 
 The `format.*()` functions can be used to create valid JSON-RPC
-message in the form of JS objects. It is up to you to format them in
-JSON if necessary.
+messages (as JavaScript strings).
 
 #### Notification
 
 ```javascript
 format.notification('foo', ['bars'])
 // → {
-//   [type: 'notification']
-//   jsonrpc: '2.0',
-//   method: 'foo',
-//   params: ['bar']
+//   "jsonrpc": "2.0",
+//   "method": "foo",
+//   "params": ["bar"]
 // }
 ```
 
@@ -170,11 +168,10 @@ generated if missing via an increment.
 ```javascript
 format.request('add', [1, 2], 0)
 // → {
-//   [type: 'request']
-//   jsonrpc: '2.0',
-//   id: 0,
-//   method: 'add',
-//   params: [1, 2]
+//   "jsonrpc": "2.0",
+//   "id": 0,
+//   "method": "add",
+//   "params": [1, 2]
 // }
 ```
 
@@ -185,10 +182,9 @@ A successful response:
 ```javascript
 format.response(0, 3)
 // → {
-//   [type: 'response']
-//   jsonrpc: '2.0',
-//   id: 0,
-//   result: 3
+//   "jsonrpc": "2.0",
+//   "id": 0,
+//   "result": 3
 // }
 ```
 
@@ -199,13 +195,12 @@ var MethodNotFound = require('json-rpc-protocol').MethodNotFound
 
 format.error(0, new MethodNotFound('add'))
 // → {
-//   [type: 'error']
-//   jsonrpc: '2.0',
-//   id: 0,
-//   error: {
-//     code: -3601,
-//     message: 'method not found: add',
-//     data: 'add'
+//   "jsonrpc": "2.0",
+//   "id": 0,
+//   "error": {
+//     "code": -3601,
+//     "message": "method not found: add",
+//     "data": "add"
 //   }
 // }
 ```

@@ -7,52 +7,50 @@ import expect from 'must'
 import * as format from './format'
 import {JsonRpcError} from './errors'
 
+const {parse: fromJson} = JSON
+
 // ===================================================================
 
 describe('format', function () {
   it('.error()', function () {
-    const message = format.error(null, new JsonRpcError('foo', 42))
-
-    expect(message.jsonrpc).to.equal('2.0')
-    expect(message.error).to.be.an.object()
-    expect(message.error.code).to.equal(42)
-    expect(message.error.message).to.equal('foo')
-
-    expect(message).to.have.nonenumerable('type')
-    expect(message.type).to.equal('error')
+    expect(fromJson(
+      format.error(null, new JsonRpcError('foo', 42))
+    )).to.eql({
+      jsonrpc: '2.0',
+      id: null,
+      error: {
+        code: 42,
+        message: 'foo'
+      }
+    })
   })
 
   it('.notification()', function () {
-    const message = format.notification('foo')
-
-    expect(message.jsonrpc).to.equal('2.0')
-    expect(message.method).to.equal('foo')
-    expect(message.params).to.be.undefined()
-
-    expect(message).to.have.nonenumerable('type')
-    expect(message.type).to.equal('notification')
+    expect(fromJson(
+      format.notification('foo')
+    )).to.eql({
+      jsonrpc: '2.0',
+      method: 'foo'
+    })
   })
 
   it('.request()', function () {
-    const message = format.request('foo')
-
-    expect(message.id).to.be.a.number()
-    expect(message.jsonrpc).to.equal('2.0')
-    expect(message.method).to.equal('foo')
-    expect(message.params).to.be.undefined()
-
-    expect(message).to.have.nonenumerable('type')
-    expect(message.type).to.equal('request')
+    expect(fromJson(
+      format.request('foo', undefined, 0)
+    )).to.eql({
+      jsonrpc: '2.0',
+      id: 0,
+      method: 'foo'
+    })
   })
 
   it('.response()', function () {
-    const message = format.response(1, 'foo')
-
-    expect(message.id).to.equal(1)
-    expect(message.jsonrpc).to.equal('2.0')
-    expect(message.result).to.equal('foo')
-
-    expect(message).to.have.nonenumerable('type')
-    expect(message.type).to.equal('response')
+    expect(fromJson(
+      format.response(1, 'foo')
+    )).to.eql({
+      jsonrpc: '2.0',
+      id: 1,
+      result: 'foo'
+    })
   })
 })

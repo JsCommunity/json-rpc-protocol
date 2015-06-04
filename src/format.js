@@ -4,17 +4,7 @@ import {JsonRpcError} from './errors'
 
 let nextId = 0
 
-// -------------------------------------------------------------------
-
-const {defineProperty} = Object
-
-function setMessageType (message, type) {
-  return defineProperty(message, 'type', {
-    configurable: true,
-    value: type,
-    writable: true
-  })
-}
+const {stringify: toJson} = JSON
 
 // ===================================================================
 
@@ -26,7 +16,7 @@ export function error (id, error) {
     error = new JsonRpcError()
   }
 
-  return setMessageType({
+  return toJson({
     jsonrpc: '2.0',
     id: id,
     error: {
@@ -34,36 +24,36 @@ export function error (id, error) {
       message: error.message,
       data: error.data
     }
-  }, 'error')
+  })
 }
 
 // -------------------------------------------------------------------
 
 export function notification (method, params = undefined) {
-  return setMessageType({
+  return toJson({
     jsonrpc: '2.0',
     method: method,
     params: params
-  }, 'notification')
+  })
 }
 
 // -------------------------------------------------------------------
 
 export function request (method, params = undefined, id = nextId++) {
-  return setMessageType({
+  return toJson({
     jsonrpc: '2.0',
     method: method,
     params: params,
     id: id
-  }, 'request')
+  })
 }
 
 // -------------------------------------------------------------------
 
 export function response (id, result) {
-  return setMessageType({
+  return toJson({
     jsonrpc: '2.0',
     id: id,
     result: result
-  }, 'response')
+  })
 }
