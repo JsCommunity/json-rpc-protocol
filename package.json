@@ -1,6 +1,6 @@
 {
   "name": "json-rpc-protocol",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "license": "ISC",
   "description": "JSON-RPC 2 protocol messages parsing and formatting",
   "keywords": [
