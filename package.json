@@ -1,0 +1,60 @@
+{
+  "name": "json-rpc-protocol",
+  "version": "1.0.0",
+  "license": "ISC",
+  "description": "JSON-RPC 2 protocol messages parsing and formatting",
+  "keywords": [
+    "json",
+    "json-rpc",
+    "jsonrpc",
+    "jsonrpc2",
+    "rpc"
+  ],
+  "homepage": "https://github.com/julien-f/js-json-rpc-protocol",
+  "bugs": "https://github.com/julien-f/js-json-rpc-protocol/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/julien-f/js-json-rpc-protocol.git"
+  },
+  "author": {
+    "name": "Julien Fontanet",
+    "email": "julien.fontanet@isonoe.net"
+  },
+  "preferGlobal": false,
+  "main": "dist/",
+  "bin": {},
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "babel-runtime": "^5.4.7",
+    "lodash.isarray": "^3.0.3",
+    "lodash.isnumber": "^3.0.1",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^3.0.1",
+    "lodash.map": "^3.1.4",
+    "make-error": "^1.0.2"
+  },
+  "devDependencies": {
+    "babel": "^5.4.7",
+    "babel-eslint": "^3.1.11",
+    "mocha": "^2.2.5",
+    "must": "^0.12.0",
+    "source-map-support": "^0.3.1",
+    "standard": "^4.0.1"
+  },
+  "scripts": {
+    "build": "babel --source-maps --out-dir=dist/ src/",
+    "dev": "babel --watch --source-maps --out-dir=dist/ src/",
+    "lint": "standard",
+    "prepublish": "npm run build",
+    "test": "mocha --require source-map-support/register 'dist/**/*.spec.js'",
+    "test-dev": "mocha --require source-map-support/register --watch --reporter=min 'dist/**/*.spec.js'"
+  },
+  "standard": {
+    "ignore": [
+      "dist/**"
+    ],
+    "parser": "babel-eslint"
+  }
+}
