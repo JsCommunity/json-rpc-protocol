@@ -155,12 +155,12 @@ format.notification('foo', ['bars'])
 ```
 
 The last argument, the parameters of the notification is optional and
-defaults to `[]`.
+defaults to `undefined`.
 
 #### Request
 
 The second argument, the parameters of the notification is optional and
-defaults to `[]`.
+defaults to `undefined`.
 
 The last argument, the identifier of the request is optional and is
 generated if missing via an increment.
