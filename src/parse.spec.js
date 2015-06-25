@@ -5,10 +5,7 @@ import expect from 'must'
 // ===================================================================
 
 import parse from './parse'
-import {
-  InvalidJson,
-  InvalidRequest
-} from './errors'
+import {InvalidJson} from './errors'
 
 // ===================================================================
 

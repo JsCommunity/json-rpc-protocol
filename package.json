@@ -38,18 +38,20 @@
   "devDependencies": {
     "babel": "^5.4.7",
     "babel-eslint": "^3.1.11",
+    "clarify": "^1.0.5",
     "mocha": "^2.2.5",
     "must": "^0.12.0",
     "source-map-support": "^0.3.2",
-    "standard": "^4.0.1"
+    "standard": "^4.0.1",
+    "trace": "^1.2.0"
   },
   "scripts": {
     "build": "babel --source-maps --out-dir=dist/ src/",
     "dev": "babel --watch --source-maps --out-dir=dist/ src/",
     "lint": "standard",
     "prepublish": "npm run build",
-    "test": "mocha --require source-map-support/register 'dist/**/*.spec.js'",
-    "test-dev": "mocha --require source-map-support/register --watch --reporter=min 'dist/**/*.spec.js'"
+    "test": "npm run lint && mocha --opts .mocha.opts \"dist/**/*.spec.js\"",
+    "test-dev": "mocha --opts .mocha.opts --watch --reporter=min \"dist/**/*.spec.js\""
   },
   "standard": {
     "ignore": [
