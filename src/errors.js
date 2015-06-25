@@ -24,8 +24,8 @@ export class InvalidJson extends JsonRpcError {
 }
 
 export class InvalidRequest extends JsonRpcError {
-  constructor () {
-    super('invalid JSON-RPC request', -32600)
+  constructor (message = 'invalid JSON-RPC request') {
+    super(message, -32600)
   }
 }
 

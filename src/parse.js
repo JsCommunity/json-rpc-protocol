@@ -29,15 +29,23 @@ function setMessageType (message, type) {
   })
 }
 
+const getType = value => value === null ? 'null' : typeof value
+
 // ===================================================================
 
-function checkError (error) {
-  if (
-    error === undefined ||
+function checkError (error, version) {
+  if (version === '1.0') {
+    if (error == null) {
+      throw new InvalidRequest(
+        `invalid error ${getType(error)}`
+      )
+    }
+  } else if (
+    error == null ||
     !isInteger(error.code) ||
     !isString(error.message)
   ) {
-    throw new InvalidRequest()
+    throw new InvalidRequest(`invalid error: ${getType(error)} instead of {code, message}`)
   }
 }
 
@@ -46,18 +54,56 @@ function checkId (id) {
     !isNumber(id) &&
     !isString(id)
   ) {
-    throw new InvalidRequest()
+    throw new InvalidRequest(
+      `invalid identifier: ${getType(id)} instead of number or string`
+    )
   }
 }
 
-function checkParams (params) {
-  if (
-    params !== undefined &&
-    !isArray(params) &&
-    !isObject(params)
-  ) {
-    throw new InvalidRequest()
+function checkParams (params, version) {
+  if (version === '2.0') {
+    if (
+      params !== undefined &&
+      !isArray(params) &&
+      !isObject(params)
+    ) {
+      throw new InvalidRequest(
+        `invalid params: ${getType(params)} instead of undefined, array or object`
+      )
+    }
+  } else {
+    if (!isArray(params)) {
+      throw new InvalidRequest(
+        `invalid params: ${getType(params)} instead of array`
+      )
+    }
   }
+}
+
+function detectJsonRpcVersion ({jsonrpc}) {
+  if (jsonrpc === undefined) {
+    return '1.0'
+  }
+
+  if (jsonrpc === '2.0') {
+    return '2.0'
+  }
+
+  throw new InvalidRequest(
+    `invalid version: ${getType(jsonrpc)} instead of undefined or '2.0'`
+  )
+}
+
+function isNotificationId (id, version) {
+  return id === (version === '2.0' ? undefined : null)
+}
+
+function isErrorResponse ({error}, version) {
+  if (version === '2.0') {
+    return error !== undefined
+  }
+
+  return error !== null
 }
 
 // ===================================================================
@@ -67,7 +113,7 @@ function checkParams (params) {
 // The returns value is an object containing the normalized fields of
 // the JSON-RPC message and an additional `type` field which contains
 // one of the following: `notification`, request`, `response` or
-// `error.
+// `error`.
 export default function parse (message) {
   if (isString(message)) {
     try {
@@ -83,35 +129,31 @@ export default function parse (message) {
 
   // Properly handle array of requests.
   if (isArray(message)) {
-    return map(message, parse)
+    return map(message, message => parse(message))
   }
 
-  if (message.jsonrpc !== '2.0') {
-    // Use the same errors for all JSON-RPC messages (requests,
-    // responses and notifications).
-    throw new InvalidRequest()
-  }
+  const version = detectJsonRpcVersion(message)
 
   if (isString(message.method)) {
     const {id} = message
-    if (id === undefined) {
+    if (isNotificationId(id, version)) {
       setMessageType(message, 'notification')
     } else {
       checkId(id)
       setMessageType(message, 'request')
     }
 
-    checkParams(message.params)
-  } else if (message.result !== undefined) {
-    checkId(message.id)
-    setMessageType(message, 'response')
-  } else {
+    checkParams(message.params, version)
+  } else if (isErrorResponse(message, version)) {
     // The identifier of an error message can also be null.
     const {id} = message
     id !== null && checkId(id)
 
-    checkError(message.error)
+    checkError(message.error, version)
     setMessageType(message, 'error')
+  } else {
+    checkId(message.id)
+    setMessageType(message, 'response')
   }
 
   return message

@@ -19,51 +19,89 @@ describe('parse()', function () {
     }).to.throw(InvalidJson)
   })
 
-  it('throws on invalid JSON-RPC', function () {
-    expect(function () {
-      parse({})
-    }).to.throw(InvalidRequest)
-  })
+  describe('in JSON-RPC 1 mode', function () {
+    it('handles notification', function () {
+      const notif = parse({
+        id: null,
+        method: 'foo',
+        params: []
+      })
 
-  it('handles notification', function () {
-    const notif = parse({
-      jsonrpc: '2.0',
-      method: 'foo'
+      expect(notif.type).to.equal('notification')
     })
 
-    expect(notif.type).to.equal('notification')
-  })
+    it('handles request', function () {
+      const request = parse({
+        id: 0,
+        method: 'bar',
+        params: []
+      })
 
-  it('handles request', function () {
-    const notif = parse({
-      jsonrpc: '2.0',
-      id: 0,
-      method: 'bar'
+      expect(request.type).to.equal('request')
     })
 
-    expect(notif.type).to.equal('request')
-  })
+    it('handles successful response', function () {
+      const response = parse({
+        id: 0,
+        error: null,
+        result: 'baz'
+      })
 
-  it('handles successful response', function () {
-    const notif = parse({
-      jsonrpc: '2.0',
-      id: 0,
-      result: 'baz'
+      expect(response.type).to.equal('response')
     })
 
-    expect(notif.type).to.equal('response')
+    it('handles error', function () {
+      const error = parse({
+        id: 0,
+        error: 'an error',
+        result: null
+      })
+
+      expect(error.type).to.equal('error')
+    })
   })
 
-  it('handles error', function () {
-    const notif = parse({
-      jsonrpc: '2.0',
-      id: 0,
-      error: {
-        code: 0,
-        message: ''
-      }
+  describe('in JSON-RPC 2 mode', function () {
+    it('handles notification', function () {
+      const notif = parse({
+        jsonrpc: '2.0',
+        method: 'foo'
+      })
+
+      expect(notif.type).to.equal('notification')
     })
 
-    expect(notif.type).to.equal('error')
+    it('handles request', function () {
+      const request = parse({
+        jsonrpc: '2.0',
+        id: 0,
+        method: 'bar'
+      })
+
+      expect(request.type).to.equal('request')
+    })
+
+    it('handles successful response', function () {
+      const response = parse({
+        jsonrpc: '2.0',
+        id: 0,
+        result: 'baz'
+      })
+
+      expect(response.type).to.equal('response')
+    })
+
+    it('handles error', function () {
+      const error = parse({
+        jsonrpc: '2.0',
+        id: 0,
+        error: {
+          code: 0,
+          message: ''
+        }
+      })
+
+      expect(error.type).to.equal('error')
+    })
   })
 })
