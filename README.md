@@ -89,8 +89,8 @@ var parse = require('json-rpc-protocol').parse
 import {parse} from 'json-rpc-protocol'
 ```
 
-The `parse()` function parses, normalizes and validates JSON-RPC
-messages.
+The `parse()` function parses, normalizes and validates JSON-RPC 1 or
+JSON-RPC 2 messages.
 
 These message can be either JS objects or JSON strings (they will be
 parsed automatically).
