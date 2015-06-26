@@ -100,5 +100,18 @@ describe('parse()', function () {
 
       expect(error.type).to.equal('error')
     })
+
+    it('handles error with a null id', function () {
+      const error = parse({
+        jsonrpc: '2.0',
+        id: null,
+        error: {
+          code: 0,
+          message: ''
+        }
+      })
+
+      expect(error.type).to.equal('error')
+    })
   })
 })
