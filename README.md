@@ -228,6 +228,10 @@ The sources files are watched and automatically recompiled on changes.
 > npm run test-dev
 ```
 
+## Related
+
+- [json-rpc-peer](https://github.com/julien-f/js-json-rpc-peer) − High level interface
+
 ## Contributions
 
 Contributions are *very* welcomed, either on the documentation or on
