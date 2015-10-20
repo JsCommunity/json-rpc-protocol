@@ -21,7 +21,7 @@ var protocol = require('json-rpc-protocol')
 var JsonRpcError = protocol.JsonRpcError
 var InvalidJson = protocol.InvalidJson
 var InvalidRequest = protocol.InvalidRequest
-var MehtodNotFound = protocol.MehtodNotFound
+var MethodNotFound = protocol.MethodNotFound
 var InvalidParameters = protocol.InvalidParameters
 
 // ES6
@@ -154,19 +154,16 @@ format.notification('foo', ['bars'])
 // }
 ```
 
-The last argument, the parameters of the notification is optional and
+The last argument, the parameters of the notification, is optional and
 defaults to `undefined`.
 
 #### Request
 
-The second argument, the parameters of the notification is optional and
+The last argument, the parameters of the request, is optional and
 defaults to `undefined`.
 
-The last argument, the identifier of the request is optional and is
-generated if missing via an increment.
-
 ```javascript
-format.request('add', [1, 2], 0)
+format.request(0, 'add', [1, 2])
 // → {
 //   "jsonrpc": "2.0",
 //   "id": 0,
