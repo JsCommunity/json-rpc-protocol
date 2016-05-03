@@ -1,14 +1,14 @@
-import {JsonRpcError} from './errors'
+import { JsonRpcError } from './errors'
 
 // ===================================================================
 
-const {stringify: toJson} = JSON
+const toJson = JSON.stringify
 
 // ===================================================================
 
 // Note: `id` may be null if the identifier of the corresponding
 // quests could not be detected.
-export function error (id, error) {
+export const error = (id, error) => {
   // Hide internal errors.
   if (!(error instanceof JsonRpcError)) {
     error = new JsonRpcError()
@@ -27,31 +27,25 @@ export function error (id, error) {
 
 // -------------------------------------------------------------------
 
-export function notification (method, params = undefined) {
-  return toJson({
-    jsonrpc: '2.0',
-    method: method,
-    params: params
-  })
-}
+export const notification = (method, params = undefined) => toJson({
+  jsonrpc: '2.0',
+  method: method,
+  params: params
+})
 
 // -------------------------------------------------------------------
 
-export function request (id, method, params = undefined) {
-  return toJson({
-    jsonrpc: '2.0',
-    method: method,
-    params: params,
-    id: id
-  })
-}
+export const request = (id, method, params = undefined) => toJson({
+  jsonrpc: '2.0',
+  method: method,
+  params: params,
+  id: id
+})
 
 // -------------------------------------------------------------------
 
-export function response (id, result) {
-  return toJson({
-    jsonrpc: '2.0',
-    id: id,
-    result: result
-  })
-}
+export const response = (id, result) => toJson({
+  jsonrpc: '2.0',
+  id: id,
+  result: result
+})

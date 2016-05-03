@@ -1,4 +1,4 @@
-import {BaseError} from 'make-error'
+import { BaseError } from 'make-error'
 
 // ===================================================================
 

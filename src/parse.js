@@ -15,25 +15,21 @@ import {
 
 // ===================================================================
 
-function isInteger (value) {
-  return isNumber(value) && (value % 1 === 0)
-}
+const isInteger = value => isNumber(value) && (value % 1 === 0)
 
-const {defineProperty} = Object
+const { defineProperty } = Object
 
-function setMessageType (message, type) {
-  defineProperty(message, 'type', {
-    configurable: true,
-    value: type,
-    writable: true
-  })
-}
+const setMessageType = (message, type) => defineProperty(message, 'type', {
+  configurable: true,
+  value: type,
+  writable: true
+})
 
 const getType = value => value === null ? 'null' : typeof value
 
 // ===================================================================
 
-function checkError (error, version) {
+const checkError = (error, version) => {
   if (version === '1.0') {
     if (error == null) {
       throw new InvalidRequest(
@@ -49,7 +45,7 @@ function checkError (error, version) {
   }
 }
 
-function checkId (id) {
+const checkId = id => {
   if (
     !isNumber(id) &&
     !isString(id)
@@ -60,7 +56,7 @@ function checkId (id) {
   }
 }
 
-function checkParams (params, version) {
+const checkParams = (params, version) => {
   if (version === '2.0') {
     if (
       params !== undefined &&
@@ -80,7 +76,7 @@ function checkParams (params, version) {
   }
 }
 
-function detectJsonRpcVersion ({jsonrpc}) {
+const detectJsonRpcVersion = ({ jsonrpc }) => {
   if (jsonrpc === undefined) {
     return '1.0'
   }
@@ -94,17 +90,13 @@ function detectJsonRpcVersion ({jsonrpc}) {
   )
 }
 
-function isNotificationId (id, version) {
-  return id === (version === '2.0' ? undefined : null)
-}
+const isNotificationId = (id, version) => (
+  id === (version === '2.0' ? undefined : null)
+)
 
-function isErrorResponse ({error}, version) {
-  if (version === '2.0') {
-    return error !== undefined
-  }
-
-  return error !== null
-}
+const isErrorResponse = ({ error }, version) => (
+  error !== (version === '2.0' ? undefined : null)
+)
 
 // ===================================================================
 

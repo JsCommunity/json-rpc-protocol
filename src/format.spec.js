@@ -5,14 +5,14 @@ import expect from 'must'
 // ===================================================================
 
 import * as format from './format'
-import {JsonRpcError} from './errors'
+import { JsonRpcError } from './errors'
 
-const {parse: fromJson} = JSON
+const fromJson = JSON.parse
 
 // ===================================================================
 
-describe('format', function () {
-  it('.error()', function () {
+describe('format', () => {
+  it('.error()', () => {
     expect(fromJson(
       format.error(null, new JsonRpcError('foo', 42))
     )).to.eql({
@@ -25,7 +25,7 @@ describe('format', function () {
     })
   })
 
-  it('.notification()', function () {
+  it('.notification()', () => {
     expect(fromJson(
       format.notification('foo')
     )).to.eql({
@@ -34,7 +34,7 @@ describe('format', function () {
     })
   })
 
-  it('.request()', function () {
+  it('.request()', () => {
     expect(fromJson(
       format.request(0, 'foo')
     )).to.eql({
@@ -44,7 +44,7 @@ describe('format', function () {
     })
   })
 
-  it('.response()', function () {
+  it('.response()', () => {
     expect(fromJson(
       format.response(1, 'foo')
     )).to.eql({

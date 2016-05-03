@@ -14,29 +14,29 @@ import {
 
 // ===================================================================
 
-describe('errors', function () {
-  it('JsonRpcError()', function () {
+describe('errors', () => {
+  it('JsonRpcError()', () => {
     const e = new JsonRpcError()
 
     expect(e).be.an.instanceof(Error)
     expect(e.code).to.equal(-32000)
   })
 
-  it('InvalidJson()', function () {
+  it('InvalidJson()', () => {
     const e = new InvalidJson()
 
     expect(e).be.an.instanceof(JsonRpcError)
     expect(e.code).to.equal(-32700)
   })
 
-  it('InvalidRequest()', function () {
+  it('InvalidRequest()', () => {
     const e = new InvalidRequest()
 
     expect(e).be.an.instanceof(JsonRpcError)
     expect(e.code).to.equal(-32600)
   })
 
-  it('InvalidRequest(message)', function () {
+  it('InvalidRequest(message)', () => {
     const e = new InvalidRequest('invalid identifier')
 
     expect(e).be.an.instanceof(JsonRpcError)
@@ -44,14 +44,14 @@ describe('errors', function () {
     expect(e.message).to.equal('invalid identifier')
   })
 
-  it('MethodNotFound()', function () {
+  it('MethodNotFound()', () => {
     const e = new MethodNotFound()
 
     expect(e).be.an.instanceof(JsonRpcError)
     expect(e.code).to.equal(-32601)
   })
 
-  it('MethodNotFound(methodName)', function () {
+  it('MethodNotFound(methodName)', () => {
     const e = new MethodNotFound('foo')
 
     expect(e).be.an.instanceof(JsonRpcError)
@@ -59,7 +59,7 @@ describe('errors', function () {
     expect(e.data).to.equal('foo')
   })
 
-  it('InvalidParameters()', function () {
+  it('InvalidParameters()', () => {
     const e = new InvalidParameters()
 
     expect(e).be.an.instanceof(JsonRpcError)
