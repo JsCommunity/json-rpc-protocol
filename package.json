@@ -34,7 +34,7 @@
     "lodash.isnumber": "^3.0.1",
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^3.0.1",
-    "lodash.map": "^3.1.4",
+    "lodash.map": "^4.6.0",
     "make-error": "^1.0.2"
   },
   "devDependencies": {
