@@ -2,11 +2,11 @@
 
 // ===================================================================
 
-import isArray from 'lodash.isarray'
-import isNumber from 'lodash.isnumber'
-import isObject from 'lodash.isobject'
-import isString from 'lodash.isstring'
-import map from 'lodash.map'
+import isArray from 'lodash/isArray'
+import isNumber from 'lodash/isNumber'
+import isObject from 'lodash/isObject'
+import isString from 'lodash/isString'
+import map from 'lodash/map'
 
 import {
   InvalidJson,
