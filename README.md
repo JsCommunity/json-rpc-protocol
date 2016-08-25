@@ -1,4 +1,4 @@
-# json-rpc-protocol [![Build Status](https://travis-ci.org/julien-f/js-json-rpc-protocol.png?branch=master)](https://travis-ci.org/julien-f/js-json-rpc-protocol)
+# json-rpc-protocol [![Build Status](https://travis-ci.org/JsCommunity/json-rpc-protocol.png?branch=master)](https://travis-ci.org/JsCommunity/json-rpc-protocol)
 
 > JSON-RPC 2 protocol messages parsing and formatting
 
@@ -230,7 +230,7 @@ The sources files are watched and automatically recompiled on changes.
 
 ## Related
 
-- [json-rpc-peer](https://github.com/julien-f/js-json-rpc-peer) − High level interface
+- [json-rpc-peer](https://github.com/JsCommunity/json-rpc-peer) − High level interface
 
 ## Contributions
 
@@ -239,7 +239,7 @@ the code.
 
 You may:
 
-- report any [issue](https://github.com/julien-f/js-json-rpc-protocol/issues)
+- report any [issue](https://github.com/JsCommunity/json-rpc-protocol/issues)
   you've encountered;
 - fork and create a pull request.
 
