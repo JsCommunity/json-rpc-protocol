@@ -13,6 +13,10 @@ export class JsonRpcError extends BaseError {
     this.code = code
     this.data = data
   }
+
+  toJsonRpcError () {
+    return this
+  }
 }
 
 // -------------------------------------------------------------------
