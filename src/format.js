@@ -10,7 +10,7 @@ const toJson = JSON.stringify
 // quests could not be detected.
 export const error = (id, error) => {
   // Hide internal errors.
-  error = error.toJsonRpcError
+  error = typeof error.toJsonRpcError === 'function'
     ? error.toJsonRpcError()
     : new JsonRpcError()
 

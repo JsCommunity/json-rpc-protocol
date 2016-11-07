@@ -14,8 +14,14 @@ export class JsonRpcError extends BaseError {
     this.data = data
   }
 
+  // Each error that should be sent to the front-end through JSON-RPC protocol
+  // must implement this method. JsonRpcError is one of them.
   toJsonRpcError () {
-    return this
+    return {
+      code: this.code,
+      data: this.data,
+      message: this.message
+    }
   }
 }
 
