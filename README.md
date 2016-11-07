@@ -202,9 +202,21 @@ format.error(0, new MethodNotFound('add'))
 // }
 ```
 
-Note: the error to format must be an instance of `JsonRpcError` or it
+Note: the error to format must implement a `toJsonRpcError` function which returns an object or it
 will be automatically replaced by an unknown error for security
 reasons.
+
+`toJsonRpcError` example:
+
+```js
+toJsonRpcError () {
+  return {
+    code: 42, // must be an integer
+    message: "hacking too much time", // must be a string
+    data: [ 'foo', 'bar' ] // optional
+  }
+}
+```
 
 ## Development
 
