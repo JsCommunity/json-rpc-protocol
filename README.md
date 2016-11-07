@@ -212,8 +212,8 @@ reasons.
 toJsonRpcError () {
   return {
     code: 42, // must be an integer
-    message: "hacking too much time", // must be a string
-    data: [ 'foo', 'bar' ] // optional
+    message: 'Hacking too much time!', // must be a string
+    data: [ 'Hackerman' ] // optional
   }
 }
 ```
