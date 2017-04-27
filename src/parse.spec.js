@@ -1,8 +1,4 @@
-/* eslint-env mocha */
-
-import expect from 'must'
-
-// ===================================================================
+/* eslint-env jest */
 
 import parse from './parse'
 import {InvalidJson} from './errors'
@@ -13,7 +9,7 @@ describe('parse()', function () {
   it('throws on invalid JSON', function () {
     expect(function () {
       parse('')
-    }).to.throw(InvalidJson)
+    }).toThrow(InvalidJson)
   })
 
   describe('in JSON-RPC 1 mode', function () {
@@ -24,7 +20,7 @@ describe('parse()', function () {
         params: []
       })
 
-      expect(notif.type).to.equal('notification')
+      expect(notif.type).toBe('notification')
     })
 
     it('handles request', function () {
@@ -34,7 +30,7 @@ describe('parse()', function () {
         params: []
       })
 
-      expect(request.type).to.equal('request')
+      expect(request.type).toBe('request')
     })
 
     it('handles successful response', function () {
@@ -44,7 +40,7 @@ describe('parse()', function () {
         result: 'baz'
       })
 
-      expect(response.type).to.equal('response')
+      expect(response.type).toBe('response')
     })
 
     it('handles error', function () {
@@ -54,7 +50,7 @@ describe('parse()', function () {
         result: null
       })
 
-      expect(error.type).to.equal('error')
+      expect(error.type).toBe('error')
     })
   })
 
@@ -65,7 +61,7 @@ describe('parse()', function () {
         method: 'foo'
       })
 
-      expect(notif.type).to.equal('notification')
+      expect(notif.type).toBe('notification')
     })
 
     it('handles request', function () {
@@ -75,7 +71,7 @@ describe('parse()', function () {
         method: 'bar'
       })
 
-      expect(request.type).to.equal('request')
+      expect(request.type).toBe('request')
     })
 
     it('handles successful response', function () {
@@ -85,7 +81,7 @@ describe('parse()', function () {
         result: 'baz'
       })
 
-      expect(response.type).to.equal('response')
+      expect(response.type).toBe('response')
     })
 
     it('handles error', function () {
@@ -98,7 +94,7 @@ describe('parse()', function () {
         }
       })
 
-      expect(error.type).to.equal('error')
+      expect(error.type).toBe('error')
     })
 
     it('handles error with a null id', function () {
@@ -111,7 +107,7 @@ describe('parse()', function () {
         }
       })
 
-      expect(error.type).to.equal('error')
+      expect(error.type).toBe('error')
     })
   })
 })

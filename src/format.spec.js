@@ -1,8 +1,4 @@
-/* eslint-env mocha */
-
-import expect from 'must'
-
-// ===================================================================
+/* eslint-env jest */
 
 import * as format from './format'
 import { JsonRpcError } from './errors'
@@ -15,7 +11,7 @@ describe('format', () => {
   it('.error()', () => {
     expect(fromJson(
       format.error(null, new JsonRpcError('foo', 42))
-    )).to.eql({
+    )).toEqual({
       jsonrpc: '2.0',
       id: null,
       error: {
@@ -28,7 +24,7 @@ describe('format', () => {
   it('.notification()', () => {
     expect(fromJson(
       format.notification('foo')
-    )).to.eql({
+    )).toEqual({
       jsonrpc: '2.0',
       method: 'foo'
     })
@@ -37,7 +33,7 @@ describe('format', () => {
   it('.request()', () => {
     expect(fromJson(
       format.request(0, 'foo')
-    )).to.eql({
+    )).toEqual({
       jsonrpc: '2.0',
       id: 0,
       method: 'foo'
@@ -47,7 +43,7 @@ describe('format', () => {
   it('.response()', () => {
     expect(fromJson(
       format.response(1, 'foo')
-    )).to.eql({
+    )).toEqual({
       jsonrpc: '2.0',
       id: 1,
       result: 'foo'
