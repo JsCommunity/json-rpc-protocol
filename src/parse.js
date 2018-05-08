@@ -2,11 +2,9 @@
 
 // ===================================================================
 
-import isArray from 'lodash/isArray'
-import isNumber from 'lodash/isNumber'
-import isObject from 'lodash/isObject'
-import isString from 'lodash/isString'
-import map from 'lodash/map'
+import isNumber from 'lodash.isnumber'
+import isString from 'lodash.isstring'
+import isObject from 'lodash.isobject'
 
 import {
   InvalidJson,
@@ -60,7 +58,7 @@ const checkParams = (params, version) => {
   if (version === '2.0') {
     if (
       params !== undefined &&
-      !isArray(params) &&
+      !Array.isArray(params) &&
       !isObject(params)
     ) {
       throw new InvalidRequest(
@@ -68,7 +66,7 @@ const checkParams = (params, version) => {
       )
     }
   } else {
-    if (!isArray(params)) {
+    if (!Array.isArray(params)) {
       throw new InvalidRequest(
         `invalid params: ${getType(params)} instead of array`
       )
@@ -120,8 +118,8 @@ export default function parse (message) {
   }
 
   // Properly handle array of requests.
-  if (isArray(message)) {
-    return map(message, message => parse(message))
+  if (Array.isArray(message)) {
+    return message.map(parse)
   }
 
   const version = detectJsonRpcVersion(message)
