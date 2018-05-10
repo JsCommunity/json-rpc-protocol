@@ -2,9 +2,12 @@
 
 // ===================================================================
 
-import isNumber from 'lodash.isnumber'
-import isString from 'lodash.isstring'
-import isObject from 'lodash.isobject'
+import {
+  isNumber,
+  isInteger,
+  isString,
+  isObject
+} from './types'
 
 import {
   InvalidJson,
@@ -12,8 +15,6 @@ import {
 } from './errors'
 
 // ===================================================================
-
-const isInteger = value => isNumber(value) && (value % 1 === 0)
 
 const { defineProperty } = Object
 
