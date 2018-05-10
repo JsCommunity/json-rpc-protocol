@@ -4,7 +4,9 @@ const positiveInf = Number.POSITIVE_INFINITY
 // ===================================================================
 
 export const isNumber = value => {
-  return typeof value === 'number' && value > negativeInf && value < positiveInf
+  const type = typeof value
+
+  return type === 'number' && value > negativeInf && value < positiveInf
 }
 
 // -------------------------------------------------------------------
