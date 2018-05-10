@@ -73,7 +73,8 @@
         "env",
         {
           "targets": {
-            "node": 4
+            "node": 4,
+            "uglify": true
           }
         }
       ],
