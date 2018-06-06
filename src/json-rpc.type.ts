@@ -28,7 +28,13 @@ export type JsonRpcParamsSchemaByPositional = Array<any>
 // A Structured value that holds the parameter values to be used during the invocation of the method. This member MAY be omitted.
 export type JsonRpcParamsSchema = JsonRpcParamsSchemaByName | JsonRpcParamsSchemaByPositional
 
-export type PayloadType = 'notification' | 'request' | 'response' | 'error'
+export type PayloadTypeError        = 'error'
+export type PayloadTypeNotification = 'notification'
+export type PayloadTypeRequest      = 'request'
+export type PayloadTypeResponse     = 'response'
+
+export type PayloadType = PayloadTypeError | PayloadTypeNotification | PayloadTypeRequest | PayloadTypeResponse
+
 // -------------------------------------------------------------------
 
 /**
@@ -63,7 +69,7 @@ export interface JsonRpcPayloadNotification {
   params : JsonRpcParamsSchema,
 
   // internal use, should be deprecated in the future:
-  type: PayloadType
+  type: PayloadTypeNotification
 }
 
 // -------------------------------------------------------------------
@@ -74,8 +80,12 @@ export interface JsonRpcPayloadNotification {
  *
  */
 // --> {"jsonrpc": "2.0", "method": "subtract", "params": [42, 23], "id": 1}
-export interface JsonRpcPayloadRequest extends JsonRpcPayloadNotification {
-  id: JsonRpcId,
+export interface JsonRpcPayloadRequest {
+  jsonrpc: JsonRpcVersion,
+  id     : JsonRpcId,
+  method : string,
+  params : JsonRpcParamsSchema,
+  type   : PayloadTypeRequest,
 }
 
 // -------------------------------------------------------------------
@@ -93,7 +103,7 @@ export interface JsonRpcPayloadResponse {
   result : any,
 
   // internal use, should be deprecated in the future:
-  type: PayloadType
+  type: PayloadTypeResponse
 }
 
 /**
@@ -108,7 +118,7 @@ export interface JsonRpcPayloadError {
   error  : JsonRpcErrorSchema,
 
   // internal use, should be deprecated in the future:
-  type: PayloadType
+  type: PayloadTypeError
 }
 
 // -------------------------------------------------------------------
