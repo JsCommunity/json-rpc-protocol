@@ -4,7 +4,16 @@ import {
 import {
   JsonRpcErrorSchema,
   JsonRpcId,
-}                       from './json-rpc.type'
+  JsonRpcParamsSchema,
+  JsonRpcParamsSchemaByName,
+  JsonRpcParamsSchemaByPositional,
+}                                   from './json-rpc.type'
+
+// If not export at here, will get a typescript error on this file???
+export {
+  JsonRpcParamsSchemaByName,
+  JsonRpcParamsSchemaByPositional,
+}
 
 // ===================================================================
 
@@ -27,7 +36,7 @@ export const error = (id: null | JsonRpcId, err: JsonRpcError) => {
 
 // -------------------------------------------------------------------
 
-export const notification = (method: string, params?: string): string => toJson({
+export const notification = (method: string, params?: JsonRpcParamsSchema): string => toJson({
   jsonrpc: '2.0',
   method : method,
   params : params,
@@ -35,7 +44,7 @@ export const notification = (method: string, params?: string): string => toJson(
 
 // -------------------------------------------------------------------
 
-export const request = (id: JsonRpcId, method: string, params?: string): string => toJson({
+export const request = (id: JsonRpcId, method: string, params?: JsonRpcParamsSchema): string => toJson({
   jsonrpc: '2.0',
   method : method,
   params : params,
@@ -44,7 +53,7 @@ export const request = (id: JsonRpcId, method: string, params?: string): string 
 
 // -------------------------------------------------------------------
 
-export const response = (id: JsonRpcId, result: string): string => toJson({
+export const response = (id: JsonRpcId, result: any): string => toJson({
   jsonrpc: '2.0',
   id     : id,
   result : result,

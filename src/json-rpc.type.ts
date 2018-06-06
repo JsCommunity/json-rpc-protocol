@@ -15,7 +15,7 @@ export type JsonRpcVersion = '1.0' | '2.0'
 //
 // --> {"jsonrpc": "2.0", "method": "subtract", "params": {"subtrahend": 23, "minuend": 42}, "id": 3}
 // <-- {"jsonrpc": "2.0", "result": 19, "id": 3}
-export interface JsonRpcParamsPayloadByName {
+export interface JsonRpcParamsSchemaByName {
   [name: string]: any
 }
 
@@ -23,10 +23,10 @@ export interface JsonRpcParamsPayloadByName {
 //
 // --> {"jsonrpc": "2.0", "method": "subtract", "params": [42, 23], "id": 1}
 // <-- {"jsonrpc": "2.0", "result": 19, "id": 1}
-export type JsonRpcParamsPayloadByPositional = Array<any>
+export type JsonRpcParamsSchemaByPositional = Array<any>
 
 // A Structured value that holds the parameter values to be used during the invocation of the method. This member MAY be omitted.
-export type JsonRpcParamsPayload = JsonRpcParamsPayloadByName | JsonRpcParamsPayloadByPositional
+export type JsonRpcParamsSchema = JsonRpcParamsSchemaByName | JsonRpcParamsSchemaByPositional
 
 // -------------------------------------------------------------------
 
@@ -62,7 +62,7 @@ export interface JsonRpcErrorSchema {
 export interface JsonRpcPayloadNotification {
   jsonrpc: JsonRpcVersion,
   method : string,
-  params : JsonRpcParamsPayload,
+  params : JsonRpcParamsSchema,
 
   // internal use, should be deprecated in the future:
   type?: string
