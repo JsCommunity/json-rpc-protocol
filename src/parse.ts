@@ -6,37 +6,44 @@ import {
   isNumber,
   isInteger,
   isString,
-  isObject
-} from './types'
+  isObject,
+}             from './types'
 
 import {
   InvalidJson,
-  InvalidRequest
-} from './errors'
+  InvalidRequest,
+}                       from './errors'
+import {
+  JsonRpcErrorPayload,
+  JsonRpcNotificationPayload,
+  JsonRpcRequestPayload,
+  JsonRpcResponsePayload,
+  JsonRpcVersion,
+}                               from './json-rpc.type'
 
 // ===================================================================
 
 const { defineProperty } = Object
 
-const setMessageType = (message, type) => defineProperty(message, 'type', {
+const setMessageType = (message: Object, type: string) => defineProperty(message, 'type', {
   configurable: true,
   value: type,
-  writable: true
+  writable: true,
 })
 
-const getType = value => value === null ? 'null' : typeof value
+const getType = (value: any) => value === null ? 'null' : typeof value
 
 // ===================================================================
 
-const checkError = (error, version) => {
+const checkError = (error: JsonRpcErrorPayload, version: string) => {
   if (version === '1.0') {
-    if (error == null) {
+    if (error === null) {
       throw new InvalidRequest(
-        `invalid error ${getType(error)}`
+        `invalid error ${getType(error)}`,
       )
     }
   } else if (
-    error == null ||
+    error === null ||
     !isInteger(error.code) ||
     !isString(error.message)
   ) {
@@ -44,7 +51,7 @@ const checkError = (error, version) => {
   }
 }
 
-const checkId = id => {
+const checkId = (id: number | string) => {
   if (
     !isNumber(id) &&
     !isString(id)
@@ -55,7 +62,7 @@ const checkId = id => {
   }
 }
 
-const checkParams = (params, version) => {
+const checkParams = (params: undefined | Array<any> | Object, version: string) => {
   if (version === '2.0') {
     if (
       params !== undefined &&
@@ -75,7 +82,7 @@ const checkParams = (params, version) => {
   }
 }
 
-const detectJsonRpcVersion = ({ jsonrpc }) => {
+const detectJsonRpcVersion: (message: { jsonrpc?: string}) => JsonRpcVersion = ({ jsonrpc }) => {
   if (jsonrpc === undefined) {
     return '1.0'
   }
@@ -89,13 +96,60 @@ const detectJsonRpcVersion = ({ jsonrpc }) => {
   )
 }
 
-const isNotificationId = (id, version) => (
+const isNotificationId = (id: undefined | null, version: string) => (
   id === (version === '2.0' ? undefined : null)
 )
 
-const isErrorResponse = ({ error }, version) => (
+const isErrorResponse: (message: {error?: any}, version: string) => boolean = ({ error }, version) => (
   error !== (version === '2.0' ? undefined : null)
 )
+
+export const isNotificationPayload = (message: any, version: string): message is JsonRpcNotificationPayload => {
+  if (isString(message.method)) {
+    const {id} = message
+    if (isNotificationId(id, version)) {
+      checkParams(message.params, version)
+      return true
+    }
+  }
+  return false
+}
+
+export const isRequestPayload = (message: any, version: string): message is JsonRpcRequestPayload => {
+  if (isString(message.method)) {
+    const {id} = message
+    if (!isNotificationId(id, version)) {
+      checkId(id)
+      checkParams(message.params, version)
+      return true
+    }
+  }
+  return false
+}
+
+export const isErrorPayload = (message: any, version: string): message is JsonRpcErrorPayload => {
+  if (!isString(message.method)) {
+    if (isErrorResponse(message, version)) {
+      const {id} = message
+      if (id !== null) {
+        checkId(id)
+      }
+      checkError(message.error, version)
+      return true
+    }
+  }
+  return false
+}
+
+export const isResponsePayload = (message: any, version: string): message is JsonRpcResponsePayload => {
+  if (!isString(message.method)) {
+    if (!isErrorResponse(message, version)) {
+      checkId(message.id)
+      return true
+    }
+  }
+  return false
+}
 
 // ===================================================================
 
@@ -105,10 +159,14 @@ const isErrorResponse = ({ error }, version) => (
 // the JSON-RPC message and an additional `type` field which contains
 // one of the following: `notification`, request`, `response` or
 // `error`.
-export default function parse (message) {
+export function parse (
+  message: string | Object,
+): JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload {
+  let messagePayload: JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload
+
   if (isString(message)) {
     try {
-      message = JSON.parse(message)
+      messagePayload = JSON.parse(message)
     } catch (error) {
       if (error instanceof SyntaxError) {
         throw new InvalidJson()
@@ -116,36 +174,57 @@ export default function parse (message) {
 
       throw error
     }
+  } else {
+    messagePayload = message as any
   }
 
   // Properly handle array of requests.
-  if (Array.isArray(message)) {
-    return message.map(parse)
+  if (Array.isArray(messagePayload)) {
+    return messagePayload.map(parse) as any  // FIXME: any
   }
 
-  const version = detectJsonRpcVersion(message)
+  const version = detectJsonRpcVersion(messagePayload as any)  // FIXME: any
 
-  if (isString(message.method)) {
-    const {id} = message
-    if (isNotificationId(id, version)) {
-      setMessageType(message, 'notification')
-    } else {
-      checkId(id)
-      setMessageType(message, 'request')
-    }
-
-    checkParams(message.params, version)
-  } else if (isErrorResponse(message, version)) {
-    // The identifier of an error message can also be null.
-    const {id} = message
-    id !== null && checkId(id)
-
-    checkError(message.error, version)
-    setMessageType(message, 'error')
+  if (isNotificationPayload(messagePayload, version)) {
+      setMessageType(messagePayload, 'notification')
+  } else if (isRequestPayload(messagePayload, version)) {
+    setMessageType(messagePayload, 'request')
+  } else if (isErrorPayload(messagePayload, version)) {
+    setMessageType(messagePayload, 'error')
+  } else if (isResponsePayload(messagePayload, version)) {
+    setMessageType(messagePayload, 'response')
   } else {
-    checkId(message.id)
-    setMessageType(message, 'response')
+    throw new InvalidJson()
   }
 
-  return message
+  return messagePayload
 }
+
+export function parseBatch(
+  messageList: string | Object[],
+): (JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload)[] {
+
+  let messagePayloadList: (JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload)[]
+
+  if (isString(messageList)) {
+    try {
+      messagePayloadList = JSON.parse(messageList)
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        throw new InvalidJson()
+      }
+      throw error
+    }
+  } else {
+    messagePayloadList = messageList as any
+  }
+
+  // Properly handle array of requests.
+  if (!Array.isArray(messagePayloadList)) {
+    throw new InvalidJson()
+  }
+
+  return messagePayloadList.map(parse)
+}
+
+export default parse

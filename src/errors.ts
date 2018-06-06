@@ -1,12 +1,16 @@
 import { BaseError } from 'make-error'
 
+import { JsonRpcErrorPayload } from './json-rpc.type'
 // ===================================================================
 
 export class JsonRpcError extends BaseError {
+  public readonly code: number
+  public readonly data: undefined | string
+
   constructor (
     message = 'unknown error from the peer',
     code = -32000,
-    data = undefined
+    data?: string,
   ) {
     super(message)
 
@@ -16,11 +20,11 @@ export class JsonRpcError extends BaseError {
 
   // Each error that should be sent to the front-end through JSON-RPC protocol
   // must implement this method. JsonRpcError is one of them.
-  toJsonRpcError () {
+  toJsonRpcError (): JsonRpcErrorPayload {
     return {
-      code: this.code,
-      data: this.data,
-      message: this.message
+      code   : this.code,
+      data   : this.data,
+      message: this.message,
     }
   }
 }
@@ -40,7 +44,7 @@ export class InvalidRequest extends JsonRpcError {
 }
 
 export class MethodNotFound extends JsonRpcError {
-  constructor (method) {
+  constructor (method?: string) {
     const message = method
       ? `method not found: ${method}`
       : 'method not found'
@@ -50,7 +54,7 @@ export class MethodNotFound extends JsonRpcError {
 }
 
 export class InvalidParameters extends JsonRpcError {
-  constructor (data) {
+  constructor (data?: string) {
     super('invalid parameter(s)', -32602, data)
   }
 }

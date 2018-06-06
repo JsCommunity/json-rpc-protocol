@@ -1,3 +1,10 @@
-export * as format from './format'
+import * as format from './format'
+
 export * from './errors'
-export parse from './parse'
+export {
+  parse,
+  parseBatch,
+}               from './parse'
+export {
+  format,
+}
