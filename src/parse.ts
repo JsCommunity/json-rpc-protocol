@@ -14,7 +14,7 @@ import {
   InvalidRequest,
 }                       from './errors'
 import {
-  JsonRpcErrorPayload,
+  JsonRpcErrorSchema,
   JsonRpcPayloadNotification,
   JsonRpcPayloadRequest,
   JsonRpcPayloadResponse,
@@ -36,7 +36,7 @@ const getType = (value: any) => value === null ? 'null' : typeof value
 
 // ===================================================================
 
-const checkError = (error: JsonRpcErrorPayload, version: string) => {
+const checkError = (error: JsonRpcErrorSchema, version: string) => {
   if (version === '1.0') {
     if (error === null) {
       throw new InvalidRequest(
@@ -128,7 +128,7 @@ export const isRequestPayload = (message: any, version: string): message is Json
   return false
 }
 
-export const isErrorPayload = (message: any, version: string): message is JsonRpcErrorPayload => {
+export const isErrorPayload = (message: any, version: string): message is JsonRpcErrorSchema => {
   if (!isString(message.method)) {
     if (isErrorResponse(message, version)) {
       const {id} = message

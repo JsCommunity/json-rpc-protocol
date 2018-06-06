@@ -2,7 +2,7 @@ import {
   JsonRpcError,
 }                       from './errors'
 import {
-  JsonRpcErrorPayload,
+  JsonRpcErrorSchema,
   JsonRpcId,
 }                       from './json-rpc.type'
 
@@ -14,9 +14,9 @@ const toJson = JSON.stringify
 
 // Note: `id` may be null if the identifier of the corresponding
 // quests could not be detected.
-export const error = (id: JsonRpcId, err: JsonRpcError) => {
+export const error = (id: null | JsonRpcId, err: JsonRpcError) => {
   // Hide internal errors.
-  const errorPayload: JsonRpcErrorPayload = (typeof err.toJsonRpcError === 'function' ? err : new JsonRpcError()).toJsonRpcError()
+  const errorPayload: JsonRpcErrorSchema = (typeof err.toJsonRpcError === 'function' ? err : new JsonRpcError()).toJsonRpcError()
 
   return toJson({
     jsonrpc: '2.0',

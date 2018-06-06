@@ -1,6 +1,6 @@
 import { BaseError } from 'make-error'
 
-import { JsonRpcErrorPayload } from './json-rpc.type'
+import { JsonRpcErrorSchema } from './json-rpc.type'
 // ===================================================================
 
 export class JsonRpcError extends BaseError {
@@ -20,7 +20,7 @@ export class JsonRpcError extends BaseError {
 
   // Each error that should be sent to the front-end through JSON-RPC protocol
   // must implement this method. JsonRpcError is one of them.
-  toJsonRpcError (): JsonRpcErrorPayload {
+  toJsonRpcError (): JsonRpcErrorSchema {
     return {
       code   : this.code,
       data   : this.data,

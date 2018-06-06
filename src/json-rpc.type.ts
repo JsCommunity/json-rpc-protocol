@@ -6,7 +6,7 @@
 // An identifier established by the Client that MUST contain a String, Number, or NULL value if included.
 // If it is not included it is assumed to be a notification.
 // The value SHOULD normally not be Null [1] and Numbers SHOULD NOT contain fractional parts [2]
-export type JsonRpcId      = null | number | string
+export type JsonRpcId      = number | string
 
 // A String specifying the version of the JSON-RPC protocol. MUST be exactly "2.0".
 export type JsonRpcVersion = '1.0' | '2.0'
@@ -39,8 +39,7 @@ export type JsonRpcParamsPayload = JsonRpcParamsPayloadByName | JsonRpcParamsPay
 // rpc call with an empty Array:
 // --> []
 // <-- {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}
-export interface JsonRpcErrorPayload {
-  id?    : JsonRpcId,
+export interface JsonRpcErrorSchema {
   code   : number,
   data?  : string,
   message: string,
@@ -106,9 +105,9 @@ export interface JsonRpcPayloadResponse {
  */
 // <-- {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}
 export interface JsonRpcPayloadError {
-  id     : JsonRpcId,
+  id     : null | JsonRpcId,
   jsonrpc: JsonRpcVersion,
-  error  : JsonRpcErrorPayload,
+  error  : JsonRpcErrorSchema,
 
   // internal use, should be deprecated in the future:
   type?: string
