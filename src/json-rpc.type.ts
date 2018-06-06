@@ -32,7 +32,7 @@ export type JsonRpcParamsPayload = JsonRpcParamsPayloadByName | JsonRpcParamsPay
 
 /**
  *
- * Error Payload
+ * Error Schema
  *
  *
  */
@@ -40,6 +40,7 @@ export type JsonRpcParamsPayload = JsonRpcParamsPayloadByName | JsonRpcParamsPay
 // --> []
 // <-- {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}
 export interface JsonRpcErrorPayload {
+  id?    : JsonRpcId,
   code   : number,
   data?  : string,
   message: string,
@@ -59,7 +60,7 @@ export interface JsonRpcErrorPayload {
 //
 // --> {"jsonrpc": "2.0", "method": "update", "params": [1,2,3,4,5]}
 // --> {"jsonrpc": "2.0", "method": "foobar"}
-export interface JsonRpcNotificationPayload {
+export interface JsonRpcPayloadNotification {
   jsonrpc: JsonRpcVersion,
   method : string,
   params : JsonRpcParamsPayload,
@@ -72,11 +73,11 @@ export interface JsonRpcNotificationPayload {
 
 /**
  *
- * RequestPayload
+ * Payload Request
  *
  */
 // --> {"jsonrpc": "2.0", "method": "subtract", "params": [42, 23], "id": 1}
-export interface JsonRpcRequestPayload extends JsonRpcNotificationPayload {
+export interface JsonRpcPayloadRequest extends JsonRpcPayloadNotification {
   id: JsonRpcId,
 }
 
@@ -84,25 +85,34 @@ export interface JsonRpcRequestPayload extends JsonRpcNotificationPayload {
 
 /**
  *
- * ResponsePayload
+ * Response Payload
  *
  */
-export interface JsonRpcResponsePayloadBase {
-  jsonrpc: JsonRpcVersion,
-  id     : JsonRpcId,
-}
 
 // <-- {"jsonrpc": "2.0", "result": 19, "id": 1}
-export interface JsonRpcResponsePayloadResult extends JsonRpcResponsePayloadBase {
+export interface JsonRpcPayloadResponse {
+  id     : JsonRpcId,
+  jsonrpc: JsonRpcVersion,
   result : any,
+
+  // internal use, should be deprecated in the future:
+  type?: string
 }
 
+/**
+ *
+ * Error Payload
+ *
+ */
 // <-- {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}
-export interface JsonRpcResponsePayloadError extends JsonRpcResponsePayloadBase {
-  error: JsonRpcErrorPayload,
-}
+export interface JsonRpcPayloadError {
+  id     : JsonRpcId,
+  jsonrpc: JsonRpcVersion,
+  error  : JsonRpcErrorPayload,
 
-export type JsonRpcResponsePayload = (JsonRpcResponsePayloadResult | JsonRpcResponsePayloadError) & { type?: string }
+  // internal use, should be deprecated in the future:
+  type?: string
+}
 
 // -------------------------------------------------------------------
 
@@ -112,4 +122,4 @@ export type JsonRpcResponsePayload = (JsonRpcResponsePayloadResult | JsonRpcResp
  * JsonRpc Payload
  *
  */
-export type JsonRpcPayload = JsonRpcRequestPayload | JsonRpcResponsePayload | JsonRpcErrorPayload | JsonRpcNotificationPayload
+export type JsonRpcPayload = JsonRpcPayloadRequest | JsonRpcPayloadResponse | JsonRpcPayloadError | JsonRpcPayloadNotification

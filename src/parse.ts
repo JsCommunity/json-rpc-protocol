@@ -15,9 +15,9 @@ import {
 }                       from './errors'
 import {
   JsonRpcErrorPayload,
-  JsonRpcNotificationPayload,
-  JsonRpcRequestPayload,
-  JsonRpcResponsePayload,
+  JsonRpcPayloadNotification,
+  JsonRpcPayloadRequest,
+  JsonRpcPayloadResponse,
   JsonRpcVersion,
   JsonRpcPayload,
 }                               from './json-rpc.type'
@@ -105,7 +105,7 @@ const isErrorResponse: (message: {error?: any}, version: string) => boolean = ({
   error !== (version === '2.0' ? undefined : null)
 )
 
-export const isNotificationPayload = (message: any, version: string): message is JsonRpcNotificationPayload => {
+export const isNotificationPayload = (message: any, version: string): message is JsonRpcPayloadNotification => {
   if (isString(message.method)) {
     const {id} = message
     if (isNotificationId(id, version)) {
@@ -116,7 +116,7 @@ export const isNotificationPayload = (message: any, version: string): message is
   return false
 }
 
-export const isRequestPayload = (message: any, version: string): message is JsonRpcRequestPayload => {
+export const isRequestPayload = (message: any, version: string): message is JsonRpcPayloadRequest => {
   if (isString(message.method)) {
     const {id} = message
     if (!isNotificationId(id, version)) {
@@ -142,7 +142,7 @@ export const isErrorPayload = (message: any, version: string): message is JsonRp
   return false
 }
 
-export const isResponsePayload = (message: any, version: string): message is JsonRpcResponsePayload => {
+export const isResponsePayload = (message: any, version: string): message is JsonRpcPayloadResponse => {
   if (!isString(message.method)) {
     if (!isErrorResponse(message, version)) {
       checkId(message.id)
