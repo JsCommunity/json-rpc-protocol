@@ -60,6 +60,7 @@
     "dev": "cross-env NODE_ENV=development tsc --watch",
     "dev-test": "jest --bail --watch",
     "lint": "tslint --project tsconfig.json && tsc --noEmit",
+    "pretest": "npm run lint",
     "posttest": "standard && dependency-check ./package.json",
     "prebuild": "rimraf dist/",
     "predev": "npm run prebuild",
