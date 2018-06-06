@@ -20,13 +20,14 @@ import {
   JsonRpcPayloadResponse,
   JsonRpcVersion,
   JsonRpcPayload,
+  PayloadType,
 }                               from './json-rpc.type'
 
 // ===================================================================
 
 const { defineProperty } = Object
 
-const setMessageType = (message: Object, type: string) => defineProperty(message, 'type', {
+const setMessageType = (message: Object, type: PayloadType) => defineProperty(message, 'type', {
   configurable: true,
   value: type,
   writable: true,

@@ -28,6 +28,7 @@ export type JsonRpcParamsSchemaByPositional = Array<any>
 // A Structured value that holds the parameter values to be used during the invocation of the method. This member MAY be omitted.
 export type JsonRpcParamsSchema = JsonRpcParamsSchemaByName | JsonRpcParamsSchemaByPositional
 
+export type PayloadType = 'notification' | 'request' | 'response' | 'error'
 // -------------------------------------------------------------------
 
 /**
@@ -45,7 +46,7 @@ export interface JsonRpcErrorSchema {
   message: string,
 
   // internal use, should be deprecated in the future:
-  type?: string
+  type?: PayloadType
 }
 
 // -------------------------------------------------------------------
@@ -65,7 +66,7 @@ export interface JsonRpcPayloadNotification {
   params : JsonRpcParamsSchema,
 
   // internal use, should be deprecated in the future:
-  type?: string
+  type?: PayloadType
 }
 
 // -------------------------------------------------------------------
@@ -95,7 +96,7 @@ export interface JsonRpcPayloadResponse {
   result : any,
 
   // internal use, should be deprecated in the future:
-  type?: string
+  type?: PayloadType
 }
 
 /**
@@ -110,7 +111,7 @@ export interface JsonRpcPayloadError {
   error  : JsonRpcErrorSchema,
 
   // internal use, should be deprecated in the future:
-  type?: string
+  type?: PayloadType
 }
 
 // -------------------------------------------------------------------
