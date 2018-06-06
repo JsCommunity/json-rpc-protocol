@@ -44,9 +44,6 @@ export interface JsonRpcErrorSchema {
   code   : number,
   data?  : string,
   message: string,
-
-  // internal use, should be deprecated in the future:
-  type?: PayloadType
 }
 
 // -------------------------------------------------------------------
@@ -66,7 +63,7 @@ export interface JsonRpcPayloadNotification {
   params : JsonRpcParamsSchema,
 
   // internal use, should be deprecated in the future:
-  type?: PayloadType
+  type: PayloadType
 }
 
 // -------------------------------------------------------------------
@@ -96,7 +93,7 @@ export interface JsonRpcPayloadResponse {
   result : any,
 
   // internal use, should be deprecated in the future:
-  type?: PayloadType
+  type: PayloadType
 }
 
 /**
@@ -111,7 +108,7 @@ export interface JsonRpcPayloadError {
   error  : JsonRpcErrorSchema,
 
   // internal use, should be deprecated in the future:
-  type?: PayloadType
+  type: PayloadType
 }
 
 // -------------------------------------------------------------------

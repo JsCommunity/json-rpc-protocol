@@ -24,7 +24,7 @@ export class JsonRpcError extends BaseError {
     return {
       code   : this.code,
       data   : this.data,
-      message: this.message,
+      message: this.message
     }
   }
 }
