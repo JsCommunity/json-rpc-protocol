@@ -103,3 +103,13 @@ export interface JsonRpcResponsePayloadError extends JsonRpcResponsePayloadBase 
 }
 
 export type JsonRpcResponsePayload = (JsonRpcResponsePayloadResult | JsonRpcResponsePayloadError) & { type?: string }
+
+// -------------------------------------------------------------------
+
+/**
+ *
+ *
+ * JsonRpc Payload
+ *
+ */
+export type JsonRpcPayload = JsonRpcRequestPayload | JsonRpcResponsePayload | JsonRpcErrorPayload | JsonRpcNotificationPayload

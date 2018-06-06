@@ -19,6 +19,7 @@ import {
   JsonRpcRequestPayload,
   JsonRpcResponsePayload,
   JsonRpcVersion,
+  JsonRpcPayload,
 }                               from './json-rpc.type'
 
 // ===================================================================
@@ -51,7 +52,7 @@ const checkError = (error: JsonRpcErrorPayload, version: string) => {
   }
 }
 
-const checkId = (id: number | string) => {
+const checkId: (id: number | string) => void = id => {
   if (
     !isNumber(id) &&
     !isString(id)
@@ -62,7 +63,7 @@ const checkId = (id: number | string) => {
   }
 }
 
-const checkParams = (params: undefined | Array<any> | Object, version: string) => {
+const checkParams: (params: undefined | Array<any> | Object, version: string) => void = (params, version) => {
   if (version === '2.0') {
     if (
       params !== undefined &&
@@ -161,8 +162,8 @@ export const isResponsePayload = (message: any, version: string): message is Jso
 // `error`.
 export function parse (
   message: string | Object,
-): JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload {
-  let messagePayload: JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload
+):  JsonRpcPayload | JsonRpcPayload[] {
+  let messagePayload: JsonRpcPayload | JsonRpcPayload[]
 
   if (isString(message)) {
     try {
@@ -180,7 +181,7 @@ export function parse (
 
   // Properly handle array of requests.
   if (Array.isArray(messagePayload)) {
-    return messagePayload.map(parse) as any  // FIXME: any
+    return messagePayload.map(parse) as any // FIXME: any
   }
 
   const version = detectJsonRpcVersion(messagePayload as any)  // FIXME: any
@@ -198,33 +199,6 @@ export function parse (
   }
 
   return messagePayload
-}
-
-export function parseBatch(
-  messageList: string | Object[],
-): (JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload)[] {
-
-  let messagePayloadList: (JsonRpcRequestPayload | JsonRpcNotificationPayload | JsonRpcResponsePayload)[]
-
-  if (isString(messageList)) {
-    try {
-      messagePayloadList = JSON.parse(messageList)
-    } catch (error) {
-      if (error instanceof SyntaxError) {
-        throw new InvalidJson()
-      }
-      throw error
-    }
-  } else {
-    messagePayloadList = messageList as any
-  }
-
-  // Properly handle array of requests.
-  if (!Array.isArray(messagePayloadList)) {
-    throw new InvalidJson()
-  }
-
-  return messagePayloadList.map(parse)
 }
 
 export default parse
