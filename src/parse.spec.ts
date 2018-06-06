@@ -2,6 +2,9 @@
 
 import parse from './parse'
 import {InvalidJson} from './errors'
+import {
+  JsonRpcPayload,
+}                             from './json-rpc.type'
 
 // ===================================================================
 
@@ -18,7 +21,7 @@ describe('parse()', function () {
         id: null,
         method: 'foo',
         params: []
-      })
+      }) as JsonRpcPayload
 
       expect(notif.type).toBe('notification')
     })
@@ -28,7 +31,7 @@ describe('parse()', function () {
         id: 0,
         method: 'bar',
         params: []
-      })
+      }) as JsonRpcPayload
 
       expect(request.type).toBe('request')
     })
@@ -38,7 +41,7 @@ describe('parse()', function () {
         id: 0,
         error: null,
         result: 'baz'
-      })
+      }) as JsonRpcPayload
 
       expect(response.type).toBe('response')
     })
@@ -48,7 +51,7 @@ describe('parse()', function () {
         id: 0,
         error: 'an error',
         result: null
-      })
+      }) as JsonRpcPayload
 
       expect(error.type).toBe('error')
     })
@@ -59,7 +62,7 @@ describe('parse()', function () {
       const notif = parse({
         jsonrpc: '2.0',
         method: 'foo'
-      })
+      }) as JsonRpcPayload
 
       expect(notif.type).toBe('notification')
     })
@@ -69,7 +72,7 @@ describe('parse()', function () {
         jsonrpc: '2.0',
         id: 0,
         method: 'bar'
-      })
+      }) as JsonRpcPayload
 
       expect(request.type).toBe('request')
     })
@@ -79,7 +82,7 @@ describe('parse()', function () {
         jsonrpc: '2.0',
         id: 0,
         result: 'baz'
-      })
+      }) as JsonRpcPayload
 
       expect(response.type).toBe('response')
     })
@@ -92,7 +95,7 @@ describe('parse()', function () {
           code: 0,
           message: ''
         }
-      })
+      }) as JsonRpcPayload
 
       expect(error.type).toBe('error')
     })
@@ -105,7 +108,7 @@ describe('parse()', function () {
           code: 0,
           message: ''
         }
-      })
+      }) as JsonRpcPayload
 
       expect(error.type).toBe('error')
     })
