@@ -6,7 +6,7 @@
 
 Installation of the [npm package](https://npmjs.org/package/json-rpc-protocol):
 
-```
+```shell
 > npm install --save json-rpc-protocol
 ```
 
@@ -220,7 +220,7 @@ toJsonRpcError () {
 
 ## Development
 
-```
+```shell
 # Install dependencies
 > npm install
 
