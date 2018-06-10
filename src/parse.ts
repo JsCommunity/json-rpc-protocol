@@ -3,26 +3,26 @@
 // ===================================================================
 
 import {
-  isNumber,
   isInteger,
-  isString,
+  isNumber,
   isObject,
-}             from './types'
+  isString
+} from './types'
 
 import {
   InvalidJson,
-  InvalidRequest,
-}                       from './errors'
+  InvalidRequest
+} from './errors'
 import {
   JsonRpcErrorSchema,
+  JsonRpcPayload,
   JsonRpcPayloadError,
   JsonRpcPayloadNotification,
   JsonRpcPayloadRequest,
   JsonRpcPayloadResponse,
   JsonRpcVersion,
-  JsonRpcPayload,
-  PayloadType,
-}                               from './json-rpc.type'
+  PayloadType
+} from './json-rpc.type'
 
 // ===================================================================
 
@@ -31,7 +31,7 @@ const { defineProperty } = Object
 const setMessageType = (message: Object, type: PayloadType) => defineProperty(message, 'type', {
   configurable: true,
   value: type,
-  writable: true,
+  writable: true
 })
 
 const getType = (value: any) => value === null ? 'null' : typeof value
@@ -42,7 +42,7 @@ const checkError = (error: null | JsonRpcErrorSchema, version: JsonRpcVersion) =
   if (version === '1.0') {
     if (error === null) {
       throw new InvalidRequest(
-        `invalid error ${getType(error)}`,
+        `invalid error ${getType(error)}`
       )
     }
   } else if (
@@ -54,7 +54,7 @@ const checkError = (error: null | JsonRpcErrorSchema, version: JsonRpcVersion) =
   }
 }
 
-const checkId: (id: number | string) => void = id => {
+const checkId: (id: number | string) => void = (id) => {
   if (
     !isNumber(id) &&
     !isString(id)
@@ -65,7 +65,7 @@ const checkId: (id: number | string) => void = id => {
   }
 }
 
-const checkParams: (params: undefined | Array<any> | Object, version: JsonRpcVersion) => void = (params, version) => {
+const checkParams: (params: undefined | any[] | Object, version: JsonRpcVersion) => void = (params, version) => {
   if (version === '2.0') {
     if (
       params !== undefined &&
@@ -109,7 +109,7 @@ const isErrorResponse: (message: {error?: any}, version: JsonRpcVersion) => bool
 
 export const isNotificationPayload = (message: any, version: JsonRpcVersion): message is JsonRpcPayloadNotification => {
   if (isString(message.method)) {
-    const {id} = message
+    const { id } = message
     if (isNotificationId(id, version)) {
       checkParams(message.params, version)
       return true
@@ -120,7 +120,7 @@ export const isNotificationPayload = (message: any, version: JsonRpcVersion): me
 
 export const isRequestPayload = (message: any, version: JsonRpcVersion): message is JsonRpcPayloadRequest => {
   if (isString(message.method)) {
-    const {id} = message
+    const { id } = message
     if (!isNotificationId(id, version)) {
       checkId(id)
       checkParams(message.params, version)
@@ -133,7 +133,7 @@ export const isRequestPayload = (message: any, version: JsonRpcVersion): message
 export const isErrorPayload = (message: any, version: JsonRpcVersion): message is JsonRpcPayloadError => {
   if (!isString(message.method)) {
     if (isErrorResponse(message, version)) {
-      const {id} = message
+      const { id } = message
       if (id !== null) {
         checkId(id)
       }
@@ -163,8 +163,8 @@ export const isResponsePayload = (message: any, version: JsonRpcVersion): messag
 // one of the following: `notification`, request`, `response` or
 // `error`.
 export function parse (
-  message: string | Object,
-):  JsonRpcPayload | JsonRpcPayload[] {
+  message: string | Object
+): JsonRpcPayload | JsonRpcPayload[] {
   let messagePayload: JsonRpcPayload | JsonRpcPayload[]
 
   if (isString(message)) {
@@ -189,7 +189,7 @@ export function parse (
   const version = detectJsonRpcVersion(messagePayload as any)  // FIXME: any
 
   if (isNotificationPayload(messagePayload, version)) {
-      setMessageType(messagePayload, 'notification')
+    setMessageType(messagePayload, 'notification')
   } else if (isRequestPayload(messagePayload, version)) {
     setMessageType(messagePayload, 'request')
   } else if (isErrorPayload(messagePayload, version)) {

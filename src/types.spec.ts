@@ -1,10 +1,10 @@
 /* eslint-env jest */
 
 import {
-  isNumber,
   isInteger,
-  isString,
-  isObject
+  isNumber,
+  isObject,
+  isString
 } from './types'
 
 // ===================================================================

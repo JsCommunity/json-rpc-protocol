@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
-import * as format from './format'
 import { JsonRpcError } from './errors'
+import * as format from './format'
 
 const fromJson = JSON.parse
 
@@ -12,12 +12,12 @@ describe('format', () => {
     expect(fromJson(
       format.error(null, new JsonRpcError('foo', 42))
     )).toEqual({
-      jsonrpc: '2.0',
-      id: null,
       error: {
         code: 42,
         message: 'foo'
-      }
+      },
+      id: null,
+      jsonrpc: '2.0'
     })
   })
 
@@ -34,8 +34,8 @@ describe('format', () => {
     expect(fromJson(
       format.request(0, 'foo')
     )).toEqual({
-      jsonrpc: '2.0',
       id: 0,
+      jsonrpc: '2.0',
       method: 'foo'
     })
   })
@@ -44,8 +44,8 @@ describe('format', () => {
     expect(fromJson(
       format.response(1, 'foo')
     )).toEqual({
-      jsonrpc: '2.0',
       id: 1,
+      jsonrpc: '2.0',
       result: 'foo'
     })
   })
