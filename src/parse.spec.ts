@@ -105,7 +105,7 @@ describe('parse()', () => {
           message: ''
         },
         id: null,
-        jsonrpc: '2.0',
+        jsonrpc: '2.0'
       }) as JsonRpcPayload
 
       expect(error.type).toBe('error')

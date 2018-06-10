@@ -1,6 +1,4 @@
-import {
-  JsonRpcError
-} from './errors'
+import { JsonRpcError } from './errors'
 import {
   JsonRpcErrorSchema,
   JsonRpcId,
