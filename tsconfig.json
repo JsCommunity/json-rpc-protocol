@@ -1,43 +1,22 @@
 {
   "compilerOptions": {
-      "target": "es5"
-    , "module": "commonjs"
-    , "outDir": "dist"
-    , "strict": true
-
-    , "traceResolution": false
-    , "noLib": false
-
-    , "experimentalDecorators": true
-    , "emitDecoratorMetadata": true
-    , "declaration": true
-    , "sourceMap": true
-    , "noEmitOnError": true
-
-    , "noUnusedLocals": true
-    , "noImplicitReturns": true
-    , "noFallthroughCasesInSwitch": true
-    , "strictNullChecks": true
-
-    , "noImplicitAny": true
-    , "noUnusedParameters": true
-    , "noImplicitThis": true
-
-    , "skipLibCheck": true
-    , "lib": [
-      "esnext"
-    ]
+    "alwaysStrict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "target": "es5"
   }
-  , "exclude": [
-      "node_modules/"
-    , "dist/"
-    , "tests/fixtures/"
-  ]
-  , "include": [
-       "bin/*.ts"
-     , "examples/**/*.ts"
-     , "scripts/**/*.ts"
-     , "src/**/*.ts"
-     , "tests/**/*.ts"
-  ]
 }
