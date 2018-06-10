@@ -72,11 +72,5 @@
       "js",
       "ts"
     ]
-  },
-  "standard": {
-    "ignore": [
-      "dist"
-    ],
-    "parser": "babel-eslint"
   }
 }
