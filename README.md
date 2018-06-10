@@ -220,7 +220,7 @@ toJsonRpcError () {
 
 ## Development
 
-```shell
+```
 # Install dependencies
 > npm install
 
