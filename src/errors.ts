@@ -10,7 +10,7 @@ export class JsonRpcError extends BaseError {
   constructor (
     message = 'unknown error from the peer',
     code = -32000,
-    data?: string,
+    data?: string
   ) {
     super(message)
 
@@ -20,7 +20,7 @@ export class JsonRpcError extends BaseError {
 
   // Each error that should be sent to the front-end through JSON-RPC protocol
   // must implement this method. JsonRpcError is one of them.
-  toJsonRpcError (): JsonRpcErrorSchema {
+  public toJsonRpcError (): JsonRpcErrorSchema {
     return {
       code   : this.code,
       data   : this.data,

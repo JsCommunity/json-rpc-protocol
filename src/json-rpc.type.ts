@@ -6,7 +6,7 @@
 // An identifier established by the Client that MUST contain a String, Number, or NULL value if included.
 // If it is not included it is assumed to be a notification.
 // The value SHOULD normally not be Null [1] and Numbers SHOULD NOT contain fractional parts [2]
-export type JsonRpcId      = number | string
+export type JsonRpcId = number | string
 
 // A String specifying the version of the JSON-RPC protocol. MUST be exactly "2.0".
 export type JsonRpcVersion = '1.0' | '2.0'
@@ -23,15 +23,15 @@ export interface JsonRpcParamsSchemaByName {
 //
 // --> {"jsonrpc": "2.0", "method": "subtract", "params": [42, 23], "id": 1}
 // <-- {"jsonrpc": "2.0", "result": 19, "id": 1}
-export type JsonRpcParamsSchemaByPositional = Array<any>
+export type JsonRpcParamsSchemaByPositional = any[]
 
 // A Structured value that holds the parameter values to be used during the invocation of the method. This member MAY be omitted.
 export type JsonRpcParamsSchema = JsonRpcParamsSchemaByName | JsonRpcParamsSchemaByPositional
 
-export type PayloadTypeError        = 'error'
+export type PayloadTypeError = 'error'
 export type PayloadTypeNotification = 'notification'
-export type PayloadTypeRequest      = 'request'
-export type PayloadTypeResponse     = 'response'
+export type PayloadTypeRequest = 'request'
+export type PayloadTypeResponse = 'response'
 
 export type PayloadType = PayloadTypeError | PayloadTypeNotification | PayloadTypeRequest | PayloadTypeResponse
 
@@ -47,8 +47,8 @@ export type PayloadType = PayloadTypeError | PayloadTypeNotification | PayloadTy
 // --> []
 // <-- {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}
 export interface JsonRpcErrorSchema {
-  code   : number,
-  data?  : string,
+  code: number,
+  data?: string,
   message: string,
 }
 
@@ -65,8 +65,8 @@ export interface JsonRpcErrorSchema {
 // --> {"jsonrpc": "2.0", "method": "foobar"}
 export interface JsonRpcPayloadNotification {
   jsonrpc: JsonRpcVersion,
-  method : string,
-  params : JsonRpcParamsSchema,
+  method: string,
+  params: JsonRpcParamsSchema,
 
   // internal use, should be deprecated in the future:
   type: PayloadTypeNotification
@@ -82,10 +82,10 @@ export interface JsonRpcPayloadNotification {
 // --> {"jsonrpc": "2.0", "method": "subtract", "params": [42, 23], "id": 1}
 export interface JsonRpcPayloadRequest {
   jsonrpc: JsonRpcVersion,
-  id     : JsonRpcId,
-  method : string,
-  params : JsonRpcParamsSchema,
-  type   : PayloadTypeRequest,
+  id: JsonRpcId,
+  method: string,
+  params: JsonRpcParamsSchema,
+  type: PayloadTypeRequest,
 }
 
 // -------------------------------------------------------------------
@@ -98,9 +98,9 @@ export interface JsonRpcPayloadRequest {
 
 // <-- {"jsonrpc": "2.0", "result": 19, "id": 1}
 export interface JsonRpcPayloadResponse {
-  id     : JsonRpcId,
+  id: JsonRpcId,
   jsonrpc: JsonRpcVersion,
-  result : any,
+  result: any,
 
   // internal use, should be deprecated in the future:
   type: PayloadTypeResponse
@@ -113,9 +113,9 @@ export interface JsonRpcPayloadResponse {
  */
 // <-- {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}
 export interface JsonRpcPayloadError {
-  id     : null | JsonRpcId,
+  id: null | JsonRpcId,
   jsonrpc: JsonRpcVersion,
-  error  : JsonRpcErrorSchema,
+  error: JsonRpcErrorSchema,
 
   // internal use, should be deprecated in the future:
   type: PayloadTypeError

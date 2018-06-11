@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import {
-  JsonRpcError,
   InvalidJson,
+  InvalidParameters,
   InvalidRequest,
-  MethodNotFound,
-  InvalidParameters
+  JsonRpcError,
+  MethodNotFound
 } from './errors'
 
 // ===================================================================
