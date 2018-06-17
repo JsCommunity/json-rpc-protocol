@@ -1,11 +1,6 @@
 /* eslint-env jest */
 
-import {
-  isInteger,
-  isNumber,
-  isObject,
-  isString
-} from './types'
+import { isInteger, isNumber, isObject, isString } from './types'
 
 // ===================================================================
 

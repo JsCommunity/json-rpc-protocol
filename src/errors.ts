@@ -22,8 +22,8 @@ export class JsonRpcError extends BaseError {
   // must implement this method. JsonRpcError is one of them.
   public toJsonRpcError (): JsonRpcErrorSchema {
     return {
-      code   : this.code,
-      data   : this.data,
+      code: this.code,
+      data: this.data,
       message: this.message
     }
   }
@@ -47,9 +47,7 @@ export class InvalidRequest extends JsonRpcError {
 
 export class MethodNotFound extends JsonRpcError {
   constructor (method?: string) {
-    const message = method
-      ? `method not found: ${method}`
-      : 'method not found'
+    const message = method ? `method not found: ${method}` : 'method not found'
 
     super(message, -32601, method)
   }

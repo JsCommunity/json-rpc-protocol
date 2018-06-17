@@ -8,10 +8,7 @@ import {
 } from './json-rpc.type'
 
 // If not export at here, will get a typescript error on this file???
-export {
-  JsonRpcParamsSchemaByName,
-  JsonRpcParamsSchemaByPositional
-}
+export { JsonRpcParamsSchemaByName, JsonRpcParamsSchemaByPositional }
 
 // ===================================================================
 
@@ -38,25 +35,35 @@ export const error = (id: null | JsonRpcId, err: any) => {
 
 // -------------------------------------------------------------------
 
-export const notification = (method: string, params?: JsonRpcParamsSchema): string => toJson({
-  jsonrpc: '2.0',
-  method,
-  params
-})
+export const notification = (
+  method: string,
+  params?: JsonRpcParamsSchema
+): string =>
+  toJson({
+    jsonrpc: '2.0',
+    method,
+    params
+  })
 
 // -------------------------------------------------------------------
 
-export const request = (id: JsonRpcId, method: string, params?: JsonRpcParamsSchema): string => toJson({
-  id,
-  jsonrpc: '2.0',
-  method,
-  params
-})
+export const request = (
+  id: JsonRpcId,
+  method: string,
+  params?: JsonRpcParamsSchema
+): string =>
+  toJson({
+    id,
+    jsonrpc: '2.0',
+    method,
+    params
+  })
 
 // -------------------------------------------------------------------
 
-export const response = (id: JsonRpcId, result: any): string => toJson({
-  id,
-  jsonrpc: '2.0',
-  result
-})
+export const response = (id: JsonRpcId, result: any): string =>
+  toJson({
+    id,
+    jsonrpc: '2.0',
+    result
+  })

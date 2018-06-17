@@ -11,11 +11,13 @@ export const isNumber = (value: any): value is number => {
 
 // -------------------------------------------------------------------
 
-export const isInteger = (value: any): value is number => isNumber(value) && (value % 1 === 0)
+export const isInteger = (value: any): value is number =>
+  isNumber(value) && value % 1 === 0
 
 // -------------------------------------------------------------------
 
-export const isString = (value: any): value is string => typeof value === 'string'
+export const isString = (value: any): value is string =>
+  typeof value === 'string'
 
 // -------------------------------------------------------------------
 
