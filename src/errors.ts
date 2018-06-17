@@ -29,6 +29,8 @@ export class JsonRpcError extends BaseError {
   }
 }
 
+// tslint:disable:max-classes-per-file
+
 // -------------------------------------------------------------------
 
 export class InvalidJson extends JsonRpcError {

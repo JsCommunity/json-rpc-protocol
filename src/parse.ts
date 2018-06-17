@@ -28,7 +28,7 @@ import {
 
 const { defineProperty } = Object
 
-const setMessageType = (message: Object, type: PayloadType) => defineProperty(message, 'type', {
+const setMessageType = (message: object, type: PayloadType) => defineProperty(message, 'type', {
   configurable: true,
   value: type,
   writable: true
@@ -65,7 +65,7 @@ const checkId: (id: number | string) => void = (id) => {
   }
 }
 
-const checkParams: (params: undefined | any[] | Object, version: JsonRpcVersion) => void = (params, version) => {
+const checkParams: (params: undefined | any[] | object, version: JsonRpcVersion) => void = (params, version) => {
   if (version === '2.0') {
     if (
       params !== undefined &&
@@ -163,7 +163,7 @@ export const isResponsePayload = (message: any, version: JsonRpcVersion): messag
 // one of the following: `notification`, request`, `response` or
 // `error`.
 export function parse (
-  message: string | Object
+  message: string | object
 ): JsonRpcPayload | JsonRpcPayload[] {
   let messagePayload: JsonRpcPayload | JsonRpcPayload[]
 

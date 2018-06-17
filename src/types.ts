@@ -19,7 +19,9 @@ export const isString = (value: any): value is string => typeof value === 'strin
 
 // -------------------------------------------------------------------
 
-export const isObject = (value: any): value is Object | Function => {
+export type ObjectType = object | ((...args: any[]) => any)
+
+export const isObject = (value: any): value is ObjectType => {
   const type = typeof value
 
   return value !== null && (type === 'object' || type === 'function')

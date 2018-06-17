@@ -25,7 +25,8 @@ export interface JsonRpcParamsSchemaByName {
 // <-- {"jsonrpc": "2.0", "result": 19, "id": 1}
 export type JsonRpcParamsSchemaByPositional = any[]
 
-// A Structured value that holds the parameter values to be used during the invocation of the method. This member MAY be omitted.
+// A Structured value that holds the parameter values to be used
+// during the invocation of the method. This member MAY be omitted.
 export type JsonRpcParamsSchema = JsonRpcParamsSchemaByName | JsonRpcParamsSchemaByPositional
 
 export type PayloadTypeError = 'error'
@@ -129,4 +130,7 @@ export interface JsonRpcPayloadError {
  * JsonRpc Payload
  *
  */
-export type JsonRpcPayload = JsonRpcPayloadRequest | JsonRpcPayloadResponse | JsonRpcPayloadError | JsonRpcPayloadNotification
+export type JsonRpcPayload = JsonRpcPayloadError
+                            | JsonRpcPayloadNotification
+                            | JsonRpcPayloadRequest
+                            | JsonRpcPayloadResponse
