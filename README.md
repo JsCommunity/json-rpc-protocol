@@ -1,4 +1,4 @@
-# json-rpc-protocol [![Build Status](https://travis-ci.org/JsCommunity/json-rpc-protocol.png?branch=master)](https://travis-ci.org/JsCommunity/json-rpc-protocol)
+# json-rpc-protocol [![Build Status](https://travis-ci.org/JsCommunity/json-rpc-protocol.png?branch=master)](https://travis-ci.org/JsCommunity/json-rpc-protocol) [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/)
 
 > JSON-RPC 2 protocol messages parsing and formatting
 
