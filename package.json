@@ -34,28 +34,26 @@
     "make-error": "^1.3.0"
   },
   "devDependencies": {
-    "@types/node": "^10.3.1",
     "cross-env": "^5.0.0",
     "dependency-check": "^3.1.0",
-    "husky": "^0.14.3",
+    "husky": "^1.1.1",
     "jest": "^23.1.0",
     "rimraf": "^2.6.1",
-    "ts-jest": "^22.4.6",
+    "ts-jest": "^23.10.4",
     "tslint": "^5.10.0",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.9.1"
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.1.1"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production tsc",
-    "commitmsg": "npm test",
     "dev": "cross-env NODE_ENV=development tsc --watch",
     "dev-test": "jest --bail --watch",
     "lint": "tslint --project tsconfig.json && tsc --noEmit",
-    "pretest": "npm run lint",
+    "pretest": "yarn run lint",
     "posttest": "dependency-check ./package.json",
     "prebuild": "rimraf dist/",
-    "predev": "npm run prebuild",
-    "prepare": "npm run build",
+    "predev": "yarn run prebuild",
+    "prepare": "yarn run build",
     "test": "jest"
   },
   "jest": {
@@ -71,5 +69,10 @@
       "js",
       "ts"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "yarn test"
+    }
   }
 }
