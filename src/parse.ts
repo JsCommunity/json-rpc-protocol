@@ -165,6 +165,9 @@ export const isResponsePayload = (
 
 // ===================================================================
 
+type MaybeRecursiveArray<T> = T | MaybeRecursiveArrayArray<T>
+interface MaybeRecursiveArrayArray<T> extends Array<MaybeRecursiveArray<T>> {}
+
 // Parses, normalizes and validates a JSON-RPC message.
 //
 // The returns value is an object containing the normalized fields of
@@ -172,13 +175,11 @@ export const isResponsePayload = (
 // one of the following: `notification`, request`, `response` or
 // `error`.
 export function parse (
-  message: string | object
-): JsonRpcPayload | JsonRpcPayload[] {
-  let messagePayload: JsonRpcPayload | JsonRpcPayload[]
-
+  message: string | MaybeRecursiveArray<object>
+): MaybeRecursiveArray<JsonRpcPayload> {
   if (isString(message)) {
     try {
-      messagePayload = JSON.parse(message)
+      message = JSON.parse(message) as MaybeRecursiveArray<object>
     } catch (error) {
       if (error instanceof SyntaxError) {
         throw new InvalidJson()
@@ -186,30 +187,28 @@ export function parse (
 
       throw error
     }
-  } else {
-    messagePayload = message as any
   }
 
   // Properly handle array of requests.
-  if (Array.isArray(messagePayload)) {
-    return messagePayload.map(parse) as any // FIXME: any
+  if (Array.isArray(message)) {
+    return message.map(parse)
   }
 
-  const version = detectJsonRpcVersion(messagePayload as any) // FIXME: any
+  const version = detectJsonRpcVersion(message)
 
-  if (isNotificationPayload(messagePayload, version)) {
-    setMessageType(messagePayload, 'notification')
-  } else if (isRequestPayload(messagePayload, version)) {
-    setMessageType(messagePayload, 'request')
-  } else if (isErrorPayload(messagePayload, version)) {
-    setMessageType(messagePayload, 'error')
-  } else if (isResponsePayload(messagePayload, version)) {
-    setMessageType(messagePayload, 'response')
+  if (isNotificationPayload(message, version)) {
+    setMessageType(message, 'notification')
+  } else if (isRequestPayload(message, version)) {
+    setMessageType(message, 'request')
+  } else if (isErrorPayload(message, version)) {
+    setMessageType(message, 'error')
+  } else if (isResponsePayload(message, version)) {
+    setMessageType(message, 'response')
   } else {
     throw new InvalidJson()
   }
 
-  return messagePayload
+  return message
 }
 
 export default parse
