@@ -50,7 +50,7 @@ const checkError = (
   }
 }
 
-const checkId: (id: number | string) => void = (id) => {
+const checkId = (id: number | string): void {
   if (!isNumber(id) && !isString(id)) {
     throw new InvalidRequest(
       `invalid identifier: ${getType(id)} instead of number or string`
@@ -58,10 +58,10 @@ const checkId: (id: number | string) => void = (id) => {
   }
 }
 
-const checkParams: (
+const checkParams = (
   params: undefined | any[] | object,
   version: JsonRpcVersion
-) => void = (params, version) => {
+): void => {
   if (version === '2.0') {
     if (params !== undefined && !Array.isArray(params) && !isObject(params)) {
       throw new InvalidRequest(
@@ -79,9 +79,9 @@ const checkParams: (
   }
 }
 
-const detectJsonRpcVersion: (
-  message: { jsonrpc?: string }
-) => JsonRpcVersion = ({ jsonrpc }) => {
+const detectJsonRpcVersion = (
+  { jsonrpc }: { jsonrpc?: string }
+): JsonRpcVersion => {
   if (jsonrpc === undefined) {
     return '1.0'
   }
