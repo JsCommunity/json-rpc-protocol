@@ -6,7 +6,6 @@ import { isInteger, isNumber, isObject, isString } from './types'
 
 import { InvalidJson, InvalidRequest } from './errors'
 import {
-  JsonRpcErrorSchema,
   JsonRpcPayload,
   JsonRpcPayloadError,
   JsonRpcPayloadNotification,
@@ -26,6 +25,12 @@ interface Candidate {
   result?: unknown,
 }
 
+interface ErrorCandidate {
+  code?: unknown,
+  message?: unknown,
+  data?: unknown
+}
+
 // ===================================================================
 
 const { defineProperty } = Object
@@ -39,20 +44,18 @@ const setMessageType = <T extends object>(message: T, type: PayloadType): T =>
 
 const getType = (value: unknown) => (value === null ? 'null' : typeof value)
 
-// ===================================================================
-
 const checkError = (
   error: unknown,
   version: JsonRpcVersion
 ): void => {
   if (version === '1.0') {
-    if (error === null) {
+    if (error == null) {
       throw new InvalidRequest(`invalid error ${getType(error)}`)
     }
   } else if (
-    error === null ||
-    !isInteger(error.code) ||
-    !isString(error.message)
+    error == null ||
+    !isInteger((error as ErrorCandidate).code) ||
+    !isString((error as ErrorCandidate).message)
   ) {
     throw new InvalidRequest(
       `invalid error: ${getType(error)} instead of {code, message}`
