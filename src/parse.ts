@@ -20,7 +20,7 @@ import {
 
 const { defineProperty } = Object
 
-const setMessageType = (message: object, type: PayloadType) =>
+const setMessageType = <T extends object>(message: T, type: PayloadType): T =>
   defineProperty(message, 'type', {
     configurable: true,
     value: type,
@@ -34,7 +34,7 @@ const getType = (value: any) => (value === null ? 'null' : typeof value)
 const checkError = (
   error: null | JsonRpcErrorSchema,
   version: JsonRpcVersion
-) => {
+): void => {
   if (version === '1.0') {
     if (error === null) {
       throw new InvalidRequest(`invalid error ${getType(error)}`)
