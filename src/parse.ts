@@ -217,3 +217,19 @@ export function parse (
 }
 
 export default parse
+
+// Parses a response/error message
+//
+// Returns the result of the response or throws the error.
+export function response (message: string | object) {
+  const parsed = parse(message)
+  if (!Array.isArray(parsed)) {
+    if (parsed.type === 'error') {
+      throw parsed.error
+    }
+    if (parsed.type === 'response') {
+      return parsed.result
+    }
+  }
+  throw new TypeError('message should be response or error JSON-RPC message')
+}
