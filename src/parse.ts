@@ -27,12 +27,12 @@ const setMessageType = <T extends object>(message: T, type: PayloadType): T =>
     writable: true
   })
 
-const getType = (value: any) => (value === null ? 'null' : typeof value)
+const getType = (value: unknown) => (value === null ? 'null' : typeof value)
 
 // ===================================================================
 
 const checkError = (
-  error: null | JsonRpcErrorSchema,
+  error: unknown,
   version: JsonRpcVersion
 ): void => {
   if (version === '1.0') {
@@ -50,7 +50,7 @@ const checkError = (
   }
 }
 
-const checkId = (id: number | string): void {
+const checkId = (id: unknown): void => {
   if (!isNumber(id) && !isString(id)) {
     throw new InvalidRequest(
       `invalid identifier: ${getType(id)} instead of number or string`
@@ -58,10 +58,7 @@ const checkId = (id: number | string): void {
   }
 }
 
-const checkParams = (
-  params: undefined | any[] | object,
-  version: JsonRpcVersion
-): void => {
+const checkParams = (params: unknown, version: JsonRpcVersion): void => {
   if (version === '2.0') {
     if (params !== undefined && !Array.isArray(params) && !isObject(params)) {
       throw new InvalidRequest(
@@ -95,7 +92,7 @@ const detectJsonRpcVersion = (
   )
 }
 
-const isNotificationId = (id: undefined | null, version: JsonRpcVersion) =>
+const isNotificationId = (id: unknown, version: JsonRpcVersion) =>
   id === (version === '2.0' ? undefined : null)
 
 const isErrorResponse: (
