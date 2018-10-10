@@ -16,6 +16,16 @@ import {
   PayloadType
 } from './json-rpc.type'
 
+// this type represent an object that could be any of the JSON-RPC messages
+interface Candidate {
+  error?: unknown,
+  id?: unknown,
+  jsonrpc?: unknown,
+  method?: unknown,
+  params?: unknown,
+  result?: unknown,
+}
+
 // ===================================================================
 
 const { defineProperty } = Object
@@ -76,9 +86,7 @@ const checkParams = (params: unknown, version: JsonRpcVersion): void => {
   }
 }
 
-const detectJsonRpcVersion = (
-  { jsonrpc }: { jsonrpc?: string }
-): JsonRpcVersion => {
+const detectJsonRpcVersion = ({ jsonrpc }: Candidate): JsonRpcVersion => {
   if (jsonrpc === undefined) {
     return '1.0'
   }
@@ -95,14 +103,11 @@ const detectJsonRpcVersion = (
 const isNotificationId = (id: unknown, version: JsonRpcVersion) =>
   id === (version === '2.0' ? undefined : null)
 
-const isErrorResponse: (
-  message: { error?: any },
-  version: JsonRpcVersion
-) => boolean = ({ error }, version) =>
+const isErrorResponse = ({ error }: Candidate, version: JsonRpcVersion) =>
   error !== (version === '2.0' ? undefined : null)
 
 export const isNotificationPayload = (
-  message: any,
+  message: Candidate,
   version: JsonRpcVersion
 ): message is JsonRpcPayloadNotification => {
   if (isString(message.method)) {
@@ -116,7 +121,7 @@ export const isNotificationPayload = (
 }
 
 export const isRequestPayload = (
-  message: any,
+  message: Candidate,
   version: JsonRpcVersion
 ): message is JsonRpcPayloadRequest => {
   if (isString(message.method)) {
@@ -131,7 +136,7 @@ export const isRequestPayload = (
 }
 
 export const isErrorPayload = (
-  message: any,
+  message: Candidate,
   version: JsonRpcVersion
 ): message is JsonRpcPayloadError => {
   if (!isString(message.method)) {
