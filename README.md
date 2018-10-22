@@ -130,6 +130,20 @@ parse('{"jsonrpc":"2.0", "id": 0, "result": 3}')
 > A parsed message has a non enumerable property `type` set to easily
 > differentiate between types of JSON-RPC messages.
 
+
+#### Response/Error
+
+The `parse.result` helper parses and returns the result of a response message or throws the error of an error message:
+
+```js
+try {
+  const result = await parse.result(message)
+  // do something with the result
+} catch (error) {
+  // deal with the failure
+}
+```
+
 ### Formatting
 
 ```javascript
