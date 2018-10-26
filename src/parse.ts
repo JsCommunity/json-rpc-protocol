@@ -221,7 +221,7 @@ export default parse
 // Parses a response/error message
 //
 // Returns the result of the response or throws the error.
-export function result (message: string | object) {
+parse.result = function result (message: string | object) {
   const parsed = parse(message)
   if (!Array.isArray(parsed)) {
     if (parsed.type === 'error') {
