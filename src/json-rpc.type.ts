@@ -73,7 +73,7 @@ export interface JsonRpcErrorSchema {
 export interface JsonRpcPayloadNotification {
   jsonrpc: JsonRpcVersion
   method: string
-  params: JsonRpcParamsSchema
+  params?: JsonRpcParamsSchema
 
   // internal use, should be deprecated in the future:
   type: PayloadTypeNotification
@@ -91,7 +91,7 @@ export interface JsonRpcPayloadRequest {
   jsonrpc: JsonRpcVersion
   id: JsonRpcId
   method: string
-  params: JsonRpcParamsSchema
+  params?: JsonRpcParamsSchema
   type: PayloadTypeRequest
 }
 
