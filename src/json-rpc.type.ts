@@ -30,6 +30,7 @@ export type JsonRpcParamsSchemaByPositional = any[]
 export type JsonRpcParamsSchema =
   | JsonRpcParamsSchemaByName
   | JsonRpcParamsSchemaByPositional
+  | undefined
 
 export type PayloadTypeError = 'error'
 export type PayloadTypeNotification = 'notification'
@@ -73,7 +74,7 @@ export interface JsonRpcErrorSchema {
 export interface JsonRpcPayloadNotification {
   jsonrpc: JsonRpcVersion
   method: string
-  params?: JsonRpcParamsSchema
+  params: JsonRpcParamsSchema
 
   // internal use, should be deprecated in the future:
   type: PayloadTypeNotification
@@ -91,7 +92,7 @@ export interface JsonRpcPayloadRequest {
   jsonrpc: JsonRpcVersion
   id: JsonRpcId
   method: string
-  params?: JsonRpcParamsSchema
+  params: JsonRpcParamsSchema
   type: PayloadTypeRequest
 }
 
