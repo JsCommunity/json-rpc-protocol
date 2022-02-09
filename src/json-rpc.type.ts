@@ -30,6 +30,7 @@ export type JsonRpcParamsSchemaByPositional = any[]
 export type JsonRpcParamsSchema =
   | JsonRpcParamsSchemaByName
   | JsonRpcParamsSchemaByPositional
+  | undefined
 
 export type PayloadTypeError = 'error'
 export type PayloadTypeNotification = 'notification'
