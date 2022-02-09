@@ -49,11 +49,11 @@
     "dev": "cross-env NODE_ENV=development tsc --watch",
     "dev-test": "jest --bail --watch",
     "lint": "tslint --project tsconfig.json && tsc --noEmit",
-    "pretest": "yarn run lint",
+    "pretest": "npm run lint",
     "posttest": "dependency-check ./package.json",
     "prebuild": "rimraf dist/",
-    "predev": "yarn run prebuild",
-    "prepare": "yarn run build",
+    "predev": "npm run prebuild",
+    "prepare": "npm run build",
     "test": "jest"
   },
   "jest": {
@@ -72,7 +72,7 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "yarn test"
+      "commit-msg": "npm run test"
     }
   }
 }
