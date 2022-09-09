@@ -56,7 +56,7 @@ export type PayloadType =
 // <-- {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": null}
 export interface JsonRpcErrorSchema {
   code: number
-  data?: string
+  data?: any
   message: string
 }
 

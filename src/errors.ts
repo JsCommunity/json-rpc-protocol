@@ -10,7 +10,7 @@ export class JsonRpcError extends BaseError {
   constructor (
     message = 'unknown error from the peer',
     code = -32000,
-    data?: string
+    data?: any
   ) {
     super(message)
 
